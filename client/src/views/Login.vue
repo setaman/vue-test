@@ -3,139 +3,20 @@
 
         <div class="login">
             <form action="">
-                <img src="img/ar.jpg"><br>
                 <input type="text" value="arinas" placeholder="Benutzername"><br>
                 <input type="password" placeholder="Passwort"><br>
                 <input type="submit" value="Einloggen"><br>
                 <span><a href="#">Passwort vergessen?</a></span>
             </form>
         </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
-
-        <div class="login">
-            <form action="">
-                <img src="img/ar.jpg"><br>
-                <input type="text" value="arinas" placeholder="Benutzername"><br>
-                <input type="password" placeholder="Passwort"><br>
-                <input type="submit" value="Einloggen"><br>
-                <span><a href="#">Passwort vergessen?</a></span>
-            </form>
-        </div>
+        <blur-container></blur-container>
 
     </div>
 </template>
 
 <script>
     export default {
+        components: {},
         name: 'login',
         data: () => ({
             gradient: 'to top right, rgba(63,81,181, .7), rgba(25,32,72, .7)'
@@ -152,7 +33,7 @@
        margin: auto;
         top: 0;
         left: 0;
-        background: url("../../public/back.png") no-repeat;
+        background: url("../../public/villa.jpg") no-repeat;
         background-size: cover;
         flex-direction: row;
         flex-wrap: wrap;
