@@ -1,30 +1,21 @@
 <template>
 
-  <v-app dark>
-    <v-toolbar app>
-      <v-toolbar-side-icon></v-toolbar-side-icon>
-      <v-toolbar-title class="white--text">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link> |
-        <router-link to="/login">Login</router-link>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>more_vert</v-icon>
-      </v-btn>
-    </v-toolbar>
+  <v-app app dark>
     <v-content>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
-    <v-footer app></v-footer>
+    <bottom-nav></bottom-nav>
   </v-app>
 </template>
 
 <script>
+  import BottomNav from "./components/BottomNav";
+
     export default {
-        name: 'app'
+        name: 'app',
+        components: {BottomNav}
     }
 </script>
 

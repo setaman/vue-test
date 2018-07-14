@@ -1,7 +1,127 @@
 <template>
-    <div id="d">
+    <div class="login-form-container">
 
-        <div id="login">
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
+            <form action="">
+                <img src="img/ar.jpg"><br>
+                <input type="text" value="arinas" placeholder="Benutzername"><br>
+                <input type="password" placeholder="Passwort"><br>
+                <input type="submit" value="Einloggen"><br>
+                <span><a href="#">Passwort vergessen?</a></span>
+            </form>
+        </div>
+
+        <div class="login">
             <form action="">
                 <img src="img/ar.jpg"><br>
                 <input type="text" value="arinas" placeholder="Benutzername"><br>
@@ -32,55 +152,28 @@
        margin: auto;
         top: 0;
         left: 0;
+        background: url("../../public/back.png") no-repeat;
+        background-size: cover;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
         align-items: center;
-        background: url("../../public/back.png") no-repeat;
-        background-size: cover;
-
-        .login-form {
-            background: rgba(238, 238, 238, 0.51);
-            z-index: 100;
-            width: 100%;
-            .card-head{
-                display: flex;
-                justify-content: left;
-            }
-        }
+        align-content: center;
     }
 
-    #d{
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        background: url("../../public/back.png") no-repeat;
-        background-size: cover;
+    .login{
 
-    }
-
-    #login{
-        width: 350px;
-        height: 500px;
-        background: inherit;
-        position: absolute;
         overflow: hidden;
         top: 50%;
         left: 50%;
-        margin-left: -175px;
-        margin-top: -250px;
         border-radius: 8px;
+        background: rgba(255, 255, 255, 0.25);
     }
-    #login:before{
-        width: 400px;
-        height: 550px;
+    .login:before{
         content: "";
-        position: absolute;
-        top: -25px;
-        left: -25px;
         bottom: 0;
         right: 0;
         filter: blur(10px);
-        background: inherit;
         box-shadow: inset 0 0 0 200px rgba(255,255,255,0.2);
     }
 
