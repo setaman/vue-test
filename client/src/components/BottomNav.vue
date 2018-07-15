@@ -1,6 +1,6 @@
 <template>
 
-    <v-bottom-nav
+    <v-bottom-nav dark
             :active.sync="bottomNav"
             :value="true"
             fixed
@@ -8,7 +8,7 @@
             color="transparent">
         <v-btn dark to="/weather">
             <span>weather</span>
-            <v-icon>ondemand_video</v-icon>
+            <v-icon color="yellow darken-3">wb_sunny</v-icon>
         </v-btn>
 
         <v-btn dark to="/login">

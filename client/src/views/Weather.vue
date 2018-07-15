@@ -2,13 +2,17 @@
     <v-container id="weather-container" fluid align-center justify-center fill-height>
         <v-layout id="weather-content" row align-center justify-center>
             <v-flex sm12 md6 lg6 xl6>
+                <location-input></location-input>
                 <v-expansion-panel focusable class="elevation-10">
                     <v-expansion-panel-content v-for="(item,i) in items" :key="i">
-                        <div slot="header">{{item.text}} from {{i}}</div>
+                        <div slot="header" class="d-flex justify-start align-content-center">
+                            <v-icon color="yellow darken-3">wb_sunny</v-icon>
+                            <span class="">{{item.temperature}}</span>
+                            <span>{{item.date}}</span>
+                        </div>
                         <v-card>
-                            <v-card-text class="lighten-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            <v-card-text class="lighten-3">
+                                <weather-inner-card :weather_data="item"></weather-inner-card>
                             </v-card-text>
                         </v-card>
                     </v-expansion-panel-content>
@@ -20,37 +24,62 @@
 </template>
 
 <script>
+    import WeatherInnerCard from "../components/WeatherInnerCard";
+    import LocationInput from "../components/LocationInput";
+
     export default {
         name: "Weather",
+        components: {LocationInput, WeatherInnerCard},
         data() {
             return {
                 items: [
                     {
-                    text: 'hello',
-                    id: 0
+                        temperature: 25,
+                        date: new Date().toJSON().slice(0, 10),
+                        location: 'Aachen',
+                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        icon: 'wb_sunny'
                     },
                     {
-                        text: 'hey',
-                        id: 1
+                        temperature: 5,
+                        date: new Date().toJSON().slice(0, 10),
+                        location: 'Aachen',
+                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        icon: 'wb_sunny'
                     }, {
-                        text: 'hui',
-                        id: 2
+                        temperature: 26,
+                        date: new Date().toJSON().slice(0, 10),
+                        location: 'Aachen',
+                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        icon: 'wb_sunny'
                     }, {
-                        text: 'hep',
-                        id: 3
+                        temperature: 19,
+                        date: new Date().toJSON().slice(0, 10),
+                        location: 'Aachen',
+                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        icon: 'wb_sunny'
                     },
                     {
-                        text: 'foo',
-                        id: 4
+                        temperature: 13,
+                        date: new Date().toJSON().slice(0, 10),
+                        location: 'Aachen',
+                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        icon: 'wb_sunny'
                     },
                     {
-                        text: 'foo',
-                        id: 5
+                        temperature: 26,
+                        date: new Date().toJSON().slice(0, 10),
+                        location: 'Aachen',
+                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        icon: 'wb_sunny'
                     },
                     {
-                        text: 'foo',
-                        id: 6
-                    }]
+                        temperature: 29,
+                        date: new Date().toJSON().slice(0, 10),
+                        location: 'Aachen',
+                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                        icon: 'wb_sunny'
+                    }],
             }
         }
     }
@@ -58,7 +87,24 @@
 
 <style lang="scss" scoped>
     #weather-container {
-        #weather-content{
+        div.flex {
+            ul {
+                border-radius: 10px;
+            }
+            li:first-child {
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+            li:last-child {
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+            div, span {
+                font-family: 'Montserrat', sans-serif;
+            }
+        }
+
+        #weather-content {
             z-index: 1;
         }
         #weather-img {
@@ -68,6 +114,18 @@
             height: 100%;
             width: 100%;
             filter: blur(0px) brightness(85%) opacity(100%) contrast(50%);
+        }
+    }
+
+    .align-content-center {
+        * {
+            margin: 0 10px;
+            align-self: center;
+            flex: 0 0 auto !important;
+        }
+        span {
+            text-transform: uppercase;
+            font-weight: bold;
         }
     }
 
