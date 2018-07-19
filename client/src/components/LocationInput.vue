@@ -7,7 +7,7 @@
                 hide-no-data
                 hide-selected
                 v-model="model"
-                :hint="!isEditing ? 'Click the icon to edit' : 'Click the icon to save'"
+                hint="Enter your city or use location button"
                 :items="states"
                 persistent-hint
                 prepend-icon="location_city"
@@ -19,7 +19,7 @@
                     slot="append-outer"
             >
                 <div class="d-flex justify-center align-center">
-                    <v-btn flat medium icon color="white">
+                    <v-btn flat medium icon color="white" @click="showCities" :loading="is_loading">
                         <v-icon>room</v-icon>
                     </v-btn>
                 </div>
@@ -51,8 +51,23 @@
 </template>
 
 <script>
+
     export default {
-        name: "location-input"
+        name: "location-input",
+        data () {
+            return {
+                cities: [...this.$store.getters.cities],
+                is_loading: false
+            }
+        },
+        computed: {
+
+        },
+        methods: {
+            showCities: () => {
+                alert(this.cities);
+            }
+        }
     }
 </script>
 
