@@ -1,60 +1,66 @@
 <template>
-
-  <v-app app dark>
+  <v-app
+          id="inspire"
+          dark
+  >
+    <v-navigation-drawer
+            v-model="drawer"
+            fixed
+            clipped
+            app
+            mini-variant
+    >
+      <v-list dense>
+        <second-nav></second-nav>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar
+            dense
+            fixed
+            clipped-left
+            app
+            height="80"
+    >
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+    </v-toolbar>
     <v-content>
-      <transition name="slide-fade">
-        <router-view></router-view>
-      </transition>
+
+      <router-view></router-view>
     </v-content>
     <bottom-nav></bottom-nav>
   </v-app>
 </template>
 
 <script>
-  import BottomNav from "./components/BottomNav";
-
+    import BottomNav from "./components/BottomNav";
+    import SecondNav from "./components/SubNav";
     export default {
-        name: 'app',
-        components: {BottomNav}
+        components: {SecondNav, BottomNav},
+        data: () => ({
+            drawer: true,
+            items: [
+                { icon: 'trending_up', text: 'Most Popular' },
+                { icon: 'subscriptions', text: 'Subscriptions' },
+                { icon: 'history', text: 'History' },
+                { icon: 'featured_play_list', text: 'Playlists' },
+                { icon: 'watch_later', text: 'Watch Later' }
+            ],
+            items2: [
+                { picture: 28, text: 'Joseph' },
+                { picture: 38, text: 'Apple' },
+                { picture: 48, text: 'Xbox Ahoy' },
+                { picture: 58, text: 'Nokia' },
+                { picture: 78, text: 'MKBHD' }
+            ]
+        }),
+        props: {
+            source: String
+        }
     }
 </script>
-
 <style lang="scss">
-  @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-  body, html{
-    height: 100%;
-      background-color: #f0f0f0;
-      #app {
-          main {
-          }
-      }
+  .v-navigation-drawer--mini-variant {
+    overflow: visible !important;
   }
 
-.v-toolbar__content {
-  text-align: center;
-  a {
-    transition: all .3s;
-    font-weight: bold;
-    color: #2c3e50;
-    &:hover {
-      color: #62b9a9;
-    ;
-    }
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-  .slide-fade-enter-active {
-    transition: all .3s ease;
-  }
-  .slide-fade-leave-active {
-    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .slide-fade-enter, .slide-fade-leave-to
-    /* .slide-fade-leave-active below version 2.1.8 */ {
-    transform: translateX(10px);
-    opacity: 0;
-  }
-}
 </style>
