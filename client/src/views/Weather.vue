@@ -17,16 +17,6 @@
                         </v-card>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
-                <v-btn fab color="blue">
-                    <v-icon>
-                        filter
-                    </v-icon>
-                </v-btn>
-                <v-btn>
-                    <v-icon>
-                        filter
-                    </v-icon>
-                </v-btn>
             </v-flex>
         </v-layout>
         <div id="weather-img" class="fill-height"></div>

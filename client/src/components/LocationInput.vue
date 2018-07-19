@@ -6,9 +6,9 @@
                 clearable
                 hide-no-data
                 hide-selected
-                v-model="model"
+                :v-model="location"
                 hint="Enter your city or use location button"
-                :items="states"
+                :items="cities"
                 persistent-hint
                 prepend-icon="location_city"
                 return-object
@@ -19,7 +19,7 @@
                     slot="append-outer"
             >
                 <div class="d-flex justify-center align-center">
-                    <v-btn flat medium icon color="white" @click="showCities" :loading="is_loading">
+                    <v-btn flat medium icon color="white" @click="getLocation" :loading="is_loading">
                         <v-icon>room</v-icon>
                     </v-btn>
                 </div>
@@ -35,14 +35,14 @@
             </v-slide-x-reverse-transition>
         </v-autocomplete>
         <v-expand-transition>
-            <v-list class="red lighten-3" v-if="model">
+            <v-list class="red lighten-3" v-if="location">
                 <v-list-tile
-                        v-for="(field, i) in fields"
+                        v-for="(city, i) in cities"
                         :key="i"
                 >
                     <v-list-tile-content>
-                        <v-list-tile-title v-text="field.value"></v-list-tile-title>
-                        <v-list-tile-sub-title v-text="field.key"></v-list-tile-sub-title>
+                        <v-list-tile-title v-text="city"></v-list-tile-title>
+                        <v-list-tile-sub-title v-text="i"></v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -54,18 +54,36 @@
 
     export default {
         name: "location-input",
-        data () {
+        data() {
             return {
-                cities: [...this.$store.getters.cities],
-                is_loading: false
+                cities: ['kek', 'kek', 'kek'/*...this.$store.getters.cities*/],
+                is_loading: false,
+                location: null
             }
         },
-        computed: {
-
-        },
+        computed: {},
         methods: {
-            showCities: () => {
+            showCities: function () {
                 alert(this.cities);
+
+            },
+
+            getLocation: function () {
+
+                this.is_loading = true;
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                            console.log(position);
+                            this.is_loading = false;
+                            this.location = position.coordinates;
+                        },
+                        (error) => {
+                            console.log(`Some Erro: ${error}`);
+                        });
+                } else {
+                    console.log('Geolocation is not supported by this browser');
+                }
             }
         }
     }
