@@ -3,11 +3,11 @@
         <v-layout id="weather-content" row align-center justify-center>
             <v-flex sm12 md6 lg6 xl6>
                 <location-input></location-input>
-                <v-expansion-panel focusable class="elevation-10">
-                    <v-expansion-panel-content v-for="(item,i) in items" :key="i">
+                <v-expansion-panel v-if="weatherData.length > 0" focusable class="elevation-10">
+                    <v-expansion-panel-content v-for="(item, i) in weatherData" :key="i">
                         <div slot="header" class="d-flex justify-start align-content-center">
-                            <v-icon color="yellow darken-3">wb_sunny</v-icon>
-                            <span class="">{{item.temperature}}</span>
+                            <!--<v-icon color="yellow darken-3">{{item.icon}}</v-icon>-->
+                            <span class="">{{item.temp}}</span>
                             <span>{{item.date}}</span>
                         </div>
                         <v-card>
@@ -32,54 +32,12 @@
         components: {LocationInput, WeatherInnerCard},
         data() {
             return {
-                items: [
-                    {
-                        temperature: 25,
-                        date: new Date().toJSON().slice(0, 10),
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    },
-                    {
-                        temperature: 5,
-                        date: new Date().toJSON().slice(0, 10),
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    }, {
-                        temperature: 26,
-                        date: new Date().toJSON().slice(0, 10),
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    }, {
-                        temperature: 19,
-                        date: new Date().toJSON().slice(0, 10),
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    },
-                    {
-                        temperature: 13,
-                        date: new Date().toJSON().slice(0, 10),
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    },
-                    {
-                        temperature: 26,
-                        date: new Date().toJSON().slice(0, 10),
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    },
-                    {
-                        temperature: 29,
-                        date: new Date().toJSON().slice(0, 10),
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    }],
+                currentWeatherData: []
+            }
+        },
+        computed: {
+            weatherData: function () {
+                return this.currentWeatherData = this.$store.getters.getWeather;
             }
         }
     }
@@ -130,7 +88,7 @@
     }
 
     .v-btn {
-        background-image: $background_gradient_danger!important;
+        background-image: $background_gradient_danger !important;
     }
 
 </style>

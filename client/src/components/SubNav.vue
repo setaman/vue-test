@@ -59,10 +59,10 @@
 </script>
 
 <style lang="scss" scoped>
-    .second-nav {
+    aside.second-nav {
         transition: all .3s;
-        width: 200px;
         height: 100%;
+        width: auto;
         position: fixed;
         ul {
         }
@@ -71,9 +71,11 @@
             display: inline-block;
             border-radius: 30px;
             cursor: pointer;
+            width: auto;
             &:hover {
+                width: 200px;
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-                background-color: rgba(105, 155, 252, 0.68);
+                background-color: rgb(105, 155, 252);
                 span {
                     display: initial;
                     opacity: 1;
@@ -94,7 +96,7 @@
             transition: inherit;
             font-size: 1.2rem;
             opacity: 0;
-            margin: 0 15px 0 0;
+            margin: 0 15px 0 10px;
             font-weight: bold;
         }
         i.material-icons {
@@ -103,12 +105,13 @@
         a {
             display: inline-block;
             background: $background_gradient_inactive;
-            max-width: 40px !important;
-            max-height: 40px !important;
+            max-width: 40px ;
+            max-height: 40px ;
         }
     }
 
     a.v-btn--active {
+        transform: scale(1.2);
         background: $background_gradient_primary !important;
     }
 

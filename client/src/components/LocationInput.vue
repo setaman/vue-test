@@ -4,14 +4,11 @@
                 class="mb-5"
                 color="white"
                 clearable
-                hide-no-data
-                hide-selected
-                :v-model="location"
-                hint="Enter your city or use location button"
+                v-model="location"
+                :hint="location ? location.toString() : 'Enter your city or use location button'"
                 :items="cities"
                 persistent-hint
                 prepend-icon="location_city"
-                return-object
                 label="Add your Location"
         >
             <v-slide-x-reverse-transition
@@ -23,40 +20,22 @@
                         <v-icon>room</v-icon>
                     </v-btn>
                 </div>
-
-                <!--<v-icon
-                        ripple
-                        :color="isEditing ? 'success' : 'white'"
-                        :key="`icon-${isEditing}`"
-                        v-text="isEditing ? 'wb_sunny' : 'wb_sunny'"
-                        @click="isEditing = !isEditing"
-                        class="v-btn&#45;&#45;outline v-btn"
-                ></v-icon>-->
             </v-slide-x-reverse-transition>
         </v-autocomplete>
-        <v-expand-transition>
-            <v-list class="red lighten-3" v-if="location">
-                <v-list-tile
-                        v-for="(city, i) in cities"
-                        :key="i"
-                >
-                    <v-list-tile-content>
-                        <v-list-tile-title v-text="city"></v-list-tile-title>
-                        <v-list-tile-sub-title v-text="i"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
-        </v-expand-transition>
     </div>
 </template>
 
 <script>
+    import axios from 'axios';
+    import weather_api_key from '../api/weather';
 
     export default {
         name: "location-input",
         data() {
             return {
-                cities: ['kek', 'kek', 'kek'/*...this.$store.getters.cities*/],
+                cities: ['Alabama', 'Alaska', 'American Samoa', 'Arizona',
+                    'Arkansas', 'California', 'Colorado', 'Connecticut',
+                    'Delaware', 'District of Columbia', 'Federated States of Micronesia'/*...this.$store.getters.cities*/],
                 is_loading: false,
                 location: null
             }
@@ -74,9 +53,8 @@
 
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition((position) => {
-                            console.log(position);
-                            this.is_loading = false;
                             this.location = position.coordinates;
+                            this.getWeather(position);
                         },
                         (error) => {
                             console.log(`Some Erro: ${error}`);
@@ -84,6 +62,29 @@
                 } else {
                     console.log('Geolocation is not supported by this browser');
                 }
+            },
+
+            getWeather: function (position) {
+                axios
+                    .get(`http://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&APPID=${weather_api_key}`)
+                    .then(response => {
+                        console.log(response.data);
+                        this.location = response.data.list[0].main.temp;
+                        this.$store.commit('SET_WEATHER_DATA', response.data.list.map((item) => {
+                            //console.log(item)
+                            return {
+                                date: item.dt_txt,
+                                temp: item.main.temp,
+                                pressure: item.main.pressure,
+                                icon: item.weather[0].main,
+                                location: response.data.city.name
+                            }
+                        }));
+                    })
+                    .catch(error => console.log(error))
+                    .then(() => {
+                        this.is_loading = false;
+                    });
             }
         }
     }
