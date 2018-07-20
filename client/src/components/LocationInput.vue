@@ -5,7 +5,7 @@
                 color="white"
                 clearable
                 v-model="location"
-                :hint="location ? location.toString() : 'Enter your city or use location button'"
+                hint="Enter your city or use location button"
                 :items="cities"
                 persistent-hint
                 prepend-icon="location_city"
@@ -27,7 +27,7 @@
 
 <script>
     import axios from 'axios';
-    import weather_api_key from '../api/weather';
+    import {weather_api_key} from '../api/weather';
 
     export default {
         name: "location-input",
@@ -42,11 +42,6 @@
         },
         computed: {},
         methods: {
-            showCities: function () {
-                alert(this.cities);
-
-            },
-
             getLocation: function () {
 
                 this.is_loading = true;

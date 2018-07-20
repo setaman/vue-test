@@ -2,7 +2,7 @@
     <v-container id="weather-container" fluid align-center justify-center fill-height>
         <v-layout id="weather-content" row align-center justify-center>
             <v-flex sm12 md6 lg6 xl6>
-                <location-input></location-input>
+                <location-input v-if="weatherData.length > 0"></location-input>
                 <v-expansion-panel v-if="weatherData.length > 0" focusable class="elevation-10">
                     <v-expansion-panel-content v-for="(item, i) in weatherData" :key="i">
                         <div slot="header" class="d-flex justify-start align-content-center">
@@ -17,6 +17,7 @@
                         </v-card>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
+                <loading v-else></loading>
             </v-flex>
         </v-layout>
         <div id="weather-img" class="fill-height"></div>
@@ -26,10 +27,11 @@
 <script>
     import WeatherInnerCard from "../components/WeatherInnerCard";
     import LocationInput from "../components/LocationInput";
+    import Loading from "../components/Loading";
 
     export default {
         name: "Weather",
-        components: {LocationInput, WeatherInnerCard},
+        components: {Loading, LocationInput, WeatherInnerCard},
         data() {
             return {
                 currentWeatherData: []
