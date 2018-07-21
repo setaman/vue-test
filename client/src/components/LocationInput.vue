@@ -26,8 +26,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import {weather_api_key} from '../api/weather';
 
     export default {
         name: "location-input",
@@ -40,48 +38,6 @@
                 location: null
             }
         },
-        computed: {},
-        methods: {
-            getLocation: function () {
-
-                this.is_loading = true;
-
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((position) => {
-                            this.location = position.coordinates;
-                            this.getWeather(position);
-                        },
-                        (error) => {
-                            console.log(`Some Erro: ${error}`);
-                        });
-                } else {
-                    console.log('Geolocation is not supported by this browser');
-                }
-            },
-
-            getWeather: function (position) {
-                axios
-                    .get(`http://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&APPID=${weather_api_key}`)
-                    .then(response => {
-                        console.log(response.data);
-                        this.location = response.data.list[0].main.temp;
-                        this.$store.commit('SET_WEATHER_DATA', response.data.list.map((item) => {
-                            //console.log(item)
-                            return {
-                                date: item.dt_txt,
-                                temp: item.main.temp,
-                                pressure: item.main.pressure,
-                                icon: item.weather[0].main,
-                                location: response.data.city.name
-                            }
-                        }));
-                    })
-                    .catch(error => console.log(error))
-                    .then(() => {
-                        this.is_loading = false;
-                    });
-            }
-        }
     }
 </script>
 

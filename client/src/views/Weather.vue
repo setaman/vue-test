@@ -2,7 +2,7 @@
     <v-container id="weather-container" fluid align-center justify-center fill-height>
         <v-layout id="weather-content" row align-center justify-center>
             <v-flex sm12 md6 lg6 xl6>
-                <location-input v-if="weatherData.length > 0"></location-input>
+                <!--<location-input v-if="weatherData.length > 0"></location-input>-->
                 <v-expansion-panel v-if="weatherData.length > 0" focusable class="elevation-10">
                     <v-expansion-panel-content v-for="(item, i) in weatherData" :key="i">
                         <div slot="header" class="d-flex justify-start align-content-center">
