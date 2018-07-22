@@ -4,7 +4,8 @@
         <v-list-tile
                 v-for="(item, i) in weather_data"
                 :key="i"
-                @click="$emit('weather-item-selected', i)"
+                @click="selectItem(i)"
+                v-bind:class="{selected: selectedItem === i}"
         >
             <v-list-tile-action>
                 <v-icon color="yellow">room</v-icon>
@@ -25,7 +26,8 @@
         name: "weather-list",
         data() {
             return {
-                weatherDataObject: null
+                weatherDataObject: null,
+                selectedItem: 0
             }
         },
         props: {
@@ -40,6 +42,12 @@
                         icon: 'wb_sunny'
                     }
                 }
+            }
+        },
+        methods: {
+            selectItem (i) {
+                this.$emit('weather-item-selected', i);
+                this.selectedItem = i;
             }
         }
     }
@@ -62,6 +70,10 @@
         i {
             width: 50px;
         }
+    }
+    .selected {
+        transition: background-color .3s;
+        background-color: rgba(105, 155, 252, 0.3) !important;;
     }
 
 </style>

@@ -1,11 +1,9 @@
 <script>
-    import {Line, mixins} from 'vue-chartjs';
-    const { reactiveProp } = mixins;
+    import {Line} from 'vue-chartjs';
 
     export default {
         extends: Line,
         name: "weather-chart",
-        mixins: [reactiveProp],
         props: ['weather'],
         data() {
             return {
@@ -45,7 +43,6 @@
                 }
             };
         },
-        created() {},
         mounted() {
             this.gradient = this.$refs.canvas
                 .getContext("2d")
@@ -63,7 +60,6 @@
             this.gradient2.addColorStop(1, "rgba(135, 206, 250, 0.5)");
 
             console.warn(this.weather);
-            //...this.chartData.hours_forecast.map( (i) => i.time)
             this.renderChart(
                 {
                     labels: [...this.weather.hours_forecast.map( (i) => i.time)],

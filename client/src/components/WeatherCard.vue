@@ -8,7 +8,7 @@
                 <span>{{weather_data.temp + ' C°'}}</span>
             </v-flex>
             <v-flex xs12 sm8>
-                {{weather_data}}
+                Weather in {{weather_data.location}} on {{weather_data.date}}
             </v-flex>
         </v-layout>
         <v-layout row wrap>
