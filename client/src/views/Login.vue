@@ -9,7 +9,6 @@
                 <span><a href="#">Passwort vergessen?</a></span>
             </form>
         </div>
-        <blur-container></blur-container>
 
     </div>
 </template>
@@ -33,7 +32,7 @@
        margin: auto;
         top: 0;
         left: 0;
-        background: url("../../public/villa.jpg") no-repeat;
+        background: red no-repeat;
         background-size: cover;
         flex-direction: row;
         flex-wrap: wrap;

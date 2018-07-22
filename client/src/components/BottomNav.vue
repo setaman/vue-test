@@ -6,7 +6,7 @@
             fixed
             shift
             color="transparent">
-        <v-btn dark to="/weather">
+        <v-btn dark to="/">
             <span>weather</span>
             <v-icon color="yellow darken-3">wb_sunny</v-icon>
         </v-btn>

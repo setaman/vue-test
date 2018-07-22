@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="loader" >
+        <div class="loader">
             <div class="pulse first-shadow">
                 <div class="second-shadow">
                     <div class="third-shadow">
@@ -21,9 +21,7 @@
     export default {
         name: "loading",
         data() {
-            return {
-                location: null
-            }
+            return {}
         },
         methods: {
             getLocation: function () {
@@ -44,19 +42,44 @@
                     .get(`http://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&APPID=${api_keys.weather_api_key}`)
                     .then(response => {
                         console.log(response.data);
-                        this.location = response.data.list[0].main.temp;
-                        this.$store.commit('SET_WEATHER_DATA', response.data.list.map((item) => {
-                            //console.log(item)
-                            return {
-                                date: item.dt_txt,
-                                temp: item.main.temp,
-                                pressure: item.main.pressure,
-                                icon: item.weather[0].main,
-                                location: response.data.city.name
-                            }
-                        }));
+                        this.$store.commit('SET_WEATHER_DATA', this.buildWeatherObjectArray(response.data));
                     })
                     .catch(error => console.log(error));
+            },
+            buildWeatherObjectArray: data => {
+                let weatherDataArray = [];
+                let weatherDataObject = {};
+
+                for (let i = 0; i < data.list.length; i++) {
+                    let item = data.list[i];
+
+                    let time = Number(item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1,3));
+
+                    //init object for first item
+                    weatherDataObject = {
+                        date: item.dt_txt,
+                        temp: item.main.temp,
+                        pressure: item.main.pressure,
+                        icon: item.weather[0].main,
+                        location: data.city.name,
+                        hours_forecast: [{
+                            time: time,
+                            temp: item.main.temp
+                        }]
+                    };
+                    for (let j = 0 ; j < ((24-time)/3 - 1); j++){
+                        i++;
+                        if (i === data.list.length) break;
+                        let following_item = data.list[i];
+                        let following_item_time = Number(following_item.dt_txt.slice(following_item.dt_txt.indexOf(' ')).slice(1,3));
+                        weatherDataObject.hours_forecast.push({
+                            time: following_item_time,
+                            temp: following_item.main.temp
+                        })
+                    }
+                    weatherDataArray.push(weatherDataObject);
+                }
+                return weatherDataArray;
             }
         },
         mounted: function () {
@@ -108,10 +131,10 @@
     }
 
     @keyframes pulse-resize {
-        0%, 100%{
+        0%, 100% {
             transform: scale(1);
         }
-        25%{
+        25% {
             transform: scale(1.2);
         }
         50% {
@@ -120,7 +143,7 @@
     }
 
     @keyframes pulse-back {
-        0%,100%{
+        0%, 100% {
             border-color: transparent;
             box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
 

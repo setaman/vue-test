@@ -1,31 +1,9 @@
 <template>
-  <v-app
-          id="inspire"
-          dark
-  >
-    <v-navigation-drawer
-            v-model="drawer"
-            fixed
-            clipped
-            app
-            mini-variant
-    >
-      <v-list dense>
-        <second-nav></second-nav>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar
-            dense
-            fixed
-            clipped-left
-            app
-            height="80"
-    >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-    </v-toolbar>
+  <v-app dark>
     <v-content>
-
-      <router-view></router-view>
+      <transition name="router-animation">
+        <router-view></router-view>
+      </transition>
     </v-content>
     <bottom-nav></bottom-nav>
   </v-app>
@@ -33,34 +11,40 @@
 
 <script>
     import BottomNav from "./components/BottomNav";
-    import SecondNav from "./components/SubNav";
     export default {
-        components: {SecondNav, BottomNav},
-        data: () => ({
-            drawer: true,
-            items: [
-                { icon: 'trending_up', text: 'Most Popular' },
-                { icon: 'subscriptions', text: 'Subscriptions' },
-                { icon: 'history', text: 'History' },
-                { icon: 'featured_play_list', text: 'Playlists' },
-                { icon: 'watch_later', text: 'Watch Later' }
-            ],
-            items2: [
-                { picture: 28, text: 'Joseph' },
-                { picture: 38, text: 'Apple' },
-                { picture: 48, text: 'Xbox Ahoy' },
-                { picture: 58, text: 'Nokia' },
-                { picture: 78, text: 'MKBHD' }
-            ]
-        }),
-        props: {
-            source: String
-        }
+        components: { BottomNav},
+        data: () => ({}),
+        props: {}
     }
 </script>
 <style lang="scss">
-  .v-navigation-drawer--mini-variant {
-    overflow: visible !important;
+  .fadeInRight, .fadeOutRight {
+    animation-duration: 0.3s;
   }
 
+  .router-animation-enter-active {
+    animation: enter 0.3s linear;
+  }
+  .router-animation-leave-active {
+    animation: leave 0.3s linear;
+  }
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+
+  }
+  @keyframes leave {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+
+  }
 </style>
