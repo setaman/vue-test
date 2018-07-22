@@ -9,12 +9,12 @@
                 </v-flex>
             </v-layout>
             <v-layout v-if="weatherDataArray.length > 0" row wrap align-center justify-center>
-                <v-flex sm12 md6 lg6 xl6>
+                <v-flex xs12 sm12 md8 lg8 xl8>
                     <transition name="fade" >
                         <weather-card v-if="show_card" :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
                     </transition>
                 </v-flex>
-                <v-flex sm12 md6 lg6 xl3>
+                <v-flex xs12 sm10 md3 lg2 xl2>
                     <weather-list :weather_data="weatherDataArray" @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
                 </v-flex>
             </v-layout>

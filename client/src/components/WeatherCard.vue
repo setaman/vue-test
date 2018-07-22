@@ -5,7 +5,8 @@
                 <v-icon class="d-block" color="yellow">
                     wb_sunny
                 </v-icon>
-                <span>{{weather_data.temp + ' C°'}}</span>
+                <span>{{weather_data.temp_max}}</span>
+                <span>{{' / ' + weather_data.temp_min}}</span>
             </v-flex>
             <v-flex xs12 sm8>
                 Weather in {{weather_data.location}} on {{weather_data.date}}
@@ -56,9 +57,12 @@
             font-size: 5rem;
         }
         span {
-            font-family: "Montserrat Hairline";
+            font-family: "Montserrat";
             color: white;
             font-size: 2.7rem;
+            + span {
+                color: rgba(255, 255, 255, 0.5);
+            }
         }
         div:first-child {
             text-align: center;

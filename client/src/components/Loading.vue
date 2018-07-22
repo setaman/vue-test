@@ -59,8 +59,8 @@
                     //init object for first item
                     weatherDataObject = {
                         date: item.dt_txt.slice(0, item.dt_txt.indexOf(' ')),
-                        temp_avg: 0,
                         temp_min: 0,
+                        temp_max: 0,
                         pressure: item.main.pressure,
                         icon: item.weather[0].main,
                         location: data.city.name,
@@ -79,24 +79,18 @@
                             temp: Number(following_item.main.temp.toFixed(0))
                         })
                     }
-                    let new_object = this.calcTemp(weatherDataObject);
-                    weatherDataArray.push(new_object);
+                    weatherDataObject = this.calcTemp(weatherDataObject);
+                    weatherDataArray.push(weatherDataObject);
                 }
                 return weatherDataArray;
             },
-            calcTemp: obj => {
-                let avg_temp = 0;
-                let temp_array = obj.hours_forecast.map(item => {
-                    avg_temp += item.temp;
-                    return item.temp
-                });
-                avg_temp = Number( (avg_temp /= temp_array.length).toFixed(0) );
-                let min_temp = Math.min(...temp_array);
-
-                obj.temp_avg = avg_temp;
-                obj.temp_min = min_temp;
+            calcTemp (obj){
+                let temp_array = obj.hours_forecast.map(item => item.temp);
+                obj.temp_max = this.appendCelsiusSign(Math.max(...temp_array));
+                obj.temp_min = this.appendCelsiusSign(Math.min(...temp_array));
                 return obj;
-            }
+            },
+            appendCelsiusSign: item => item + '°'
         },
         mounted: function () {
             this.getLocation();

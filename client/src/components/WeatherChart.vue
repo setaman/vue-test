@@ -59,7 +59,6 @@
             this.gradient2.addColorStop(0.5, "rgba(135, 206, 250, 0.25)");
             this.gradient2.addColorStop(1, "rgba(135, 206, 250, 0.5)");
 
-            console.warn(this.weather);
             this.renderChart(
                 {
                     labels: [...this.weather.hours_forecast.map( (i) => i.time)],
