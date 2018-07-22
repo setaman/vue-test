@@ -1,20 +1,19 @@
 <template>
     <div class="weather-card ">
-        <v-layout class="weather-card-header" row>
-            <v-flex xs4>
+        <v-layout class="weather-card-header" row wrap>
+            <v-flex xs12 sm4>
                 <v-icon class="d-block" color="yellow">
                     wb_sunny
                 </v-icon>
-                <span>25°</span>
+                <span>{{weather_data.temp + ' C°'}}</span>
             </v-flex>
-            <v-flex xs8>
-                Details
-
+            <v-flex xs12 sm8>
+                {{weather_data}}
             </v-flex>
         </v-layout>
-        <v-layout row>
+        <v-layout row wrap>
             <v-flex>
-                <weather-chart></weather-chart>
+                <weather-chart :chart-data="weather_data "></weather-chart>
             </v-flex>
         </v-layout>
     </div>
@@ -30,19 +29,14 @@
             weather_data: {
                 type: Object,
                 required: true,
-                default() {
+                /*default() {
                     return {
                         temperature: 0,
                         location: 'Aachen',
                         hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                         icon: 'wb_sunny'
                     }
-                }
-            }
-        },
-        computed: {
-            weatherDataArray() {
-                return this.$store.getters.getWeather;
+                }*/
             }
         }
     }

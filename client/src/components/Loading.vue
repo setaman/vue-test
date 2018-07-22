@@ -58,7 +58,7 @@
 
                     //init object for first item
                     weatherDataObject = {
-                        date: item.dt_txt,
+                        date: item.dt_txt.slice(0, item.dt_txt.indexOf(' ')),
                         temp: item.main.temp,
                         pressure: item.main.pressure,
                         icon: item.weather[0].main,

@@ -6,6 +6,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import 'animate.css/animate.min.css'
+const EventBus = new Vue();
 
 Vue.use(Vuetify)
 

@@ -1,34 +1,19 @@
 <template>
-    <v-container id="weather-container" fluid fill-height grid-list-md>
+    <v-container id="weather-container" fluid fill-height grid-list-xl>
         <div id="weather-img" class="fill-height"></div>
 
         <div id="weather-content">
             <v-layout row wrap justify-center>
                 <v-flex sm12 md6 lg6 xl6>
-                    <location-input></location-input>
+                    <!--<location-input></location-input>-->
                 </v-flex>
             </v-layout>
             <v-layout v-if="weatherDataArray.length > 0" row wrap align-center justify-center>
                 <v-flex sm12 md6 lg6 xl6>
-                    <weather-card :weather_data="weatherDataArray"></weather-card>
+                    <weather-card :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
                 </v-flex>
                 <v-flex sm12 md6 lg6 xl3>
-                    <!--<v-expansion-panel focusable class="elevation-10">
-                        <v-expansion-panel-content v-for="(item, i) in weatherDataArray" :key="i">
-                            <div slot="header" class="d-flex justify-start align-content-center">
-                                &lt;!&ndash;<v-icon color="yellow darken-3">{{item.icon}}</v-icon>&ndash;&gt;
-                                <span class="">{{item.temp}}</span>
-                                <span>{{item.date}}</span>
-                            </div>
-                            <v-card>
-                                <v-card-text class="lighten-3">
-                                    <weather-inner-card :weather_data="item"></weather-inner-card>
-                                </v-card-text>
-                            </v-card>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>-->
-                    <weather-list :weather_data="weatherDataArray"></weather-list>
-
+                    <weather-list :weather_data="weatherDataArray" @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
                 </v-flex>
             </v-layout>
             <loading v-else></loading>
@@ -48,15 +33,22 @@
         components: {WeatherList, WeatherCard, Loading, LocationInput, WeatherInnerCard},
         data() {
             return {
-                currentWeatherData: []
+                currentWeatherData: [],
+                currentWeatherObject: null
             }
         },
         computed: {
             weatherDataArray: function () {
                 return this.currentWeatherData = this.$store.getters.getWeather;
             },
-            weatherSelectedDataSet() {
-
+            weatherSelectedDataSet(i = 0) {
+                return this.currentWeatherObject = this.weatherDataArray[i];
+            }
+        },
+        methods: {
+            selectCurrentWeatherObject (i = 0){
+                console.log(this.currentWeatherObject = this.weatherDataArray[i]);
+                return this.currentWeatherObject = this.weatherDataArray[i];
             }
         }
     }
@@ -77,7 +69,7 @@
                 border-bottom-right-radius: 10px;
             }
             div, span {
-                font-family: 'Montserrat', sans-serif;
+                //font-family: 'Montserrat', sans-serif;
             }
         }
 
