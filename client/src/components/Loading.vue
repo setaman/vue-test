@@ -46,7 +46,7 @@
                     })
                     .catch(error => console.log(error));
             },
-            buildWeatherObjectArray: data => {
+            buildWeatherObjectArray (data) {
                 let weatherDataArray = [];
                 let weatherDataObject = {};
 
@@ -59,13 +59,14 @@
                     //init object for first item
                     weatherDataObject = {
                         date: item.dt_txt.slice(0, item.dt_txt.indexOf(' ')),
-                        temp: item.main.temp,
+                        temp_avg: 0,
+                        temp_min: 0,
                         pressure: item.main.pressure,
                         icon: item.weather[0].main,
                         location: data.city.name,
                         hours_forecast: [{
                             time: time,
-                            temp: item.main.temp
+                            temp: Number(item.main.temp.toFixed(0))
                         }]
                     };
                     for (let j = 0 ; j < ((24-time_number)/3 - 1); j++){
@@ -75,12 +76,26 @@
                         let following_item_time = following_item.dt_txt.slice(following_item.dt_txt.indexOf(' ')).slice(1,6);
                         weatherDataObject.hours_forecast.push({
                             time: following_item_time,
-                            temp: following_item.main.temp
+                            temp: Number(following_item.main.temp.toFixed(0))
                         })
                     }
-                    weatherDataArray.push(weatherDataObject);
+                    let new_object = this.calcTemp(weatherDataObject);
+                    weatherDataArray.push(new_object);
                 }
                 return weatherDataArray;
+            },
+            calcTemp: obj => {
+                let avg_temp = 0;
+                let temp_array = obj.hours_forecast.map(item => {
+                    avg_temp += item.temp;
+                    return item.temp
+                });
+                avg_temp = Number( (avg_temp /= temp_array.length).toFixed(0) );
+                let min_temp = Math.min(...temp_array);
+
+                obj.temp_avg = avg_temp;
+                obj.temp_min = min_temp;
+                return obj;
             }
         },
         mounted: function () {

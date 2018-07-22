@@ -56,8 +56,9 @@
             font-size: 5rem;
         }
         span {
+            font-family: "Montserrat Hairline";
             color: white;
-            font-size: 2.5rem;
+            font-size: 2.7rem;
         }
         div:first-child {
             text-align: center;
