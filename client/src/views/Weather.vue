@@ -10,7 +10,9 @@
             </v-layout>
             <v-layout v-if="weatherDataArray.length > 0" row wrap align-center justify-center>
                 <v-flex sm12 md6 lg6 xl6>
-                    <weather-card :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
+                    <transition name="fade" >
+                        <weather-card v-if="show_card" :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
+                    </transition>
                 </v-flex>
                 <v-flex sm12 md6 lg6 xl3>
                     <weather-list :weather_data="weatherDataArray" @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
@@ -34,20 +36,20 @@
         data() {
             return {
                 currentWeatherData: [],
-                currentWeatherObject: null
+                currentWeatherObject: null,
+                show_card: true,
             }
         },
         computed: {
             weatherDataArray: function () {
                 return this.currentWeatherData = this.$store.getters.getWeather;
-            },
-            weatherSelectedDataSet(i = 0) {
-                return this.currentWeatherObject = this.weatherDataArray[i];
             }
         },
         methods: {
             selectCurrentWeatherObject (i = 0){
+                this.show_card = false;
                 console.log(this.currentWeatherObject = this.weatherDataArray[i]);
+                setTimeout(() => this.show_card = true, 300);
                 return this.currentWeatherObject = this.weatherDataArray[i];
             }
         }
@@ -103,6 +105,13 @@
 
     .v-btn {
         background-image: $background_gradient_danger !important;
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+        opacity: 0;
     }
 
 </style>

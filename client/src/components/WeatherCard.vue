@@ -13,7 +13,7 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex>
-                <weather-chart :chart-data="weather_data "></weather-chart>
+                <weather-chart :weather="weather_data"></weather-chart>
             </v-flex>
         </v-layout>
     </div>

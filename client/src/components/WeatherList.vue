@@ -21,8 +21,6 @@
 </template>
 
 <script>
-    import EventBus from "vue";
-
     export default {
         name: "weather-list",
         data() {
