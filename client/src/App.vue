@@ -18,10 +18,6 @@
     }
 </script>
 <style lang="scss">
-  .fadeInRight, .fadeOutRight {
-    animation-duration: 0.3s;
-  }
-
   .router-animation-enter-active {
     animation: enter 0.3s linear;
   }

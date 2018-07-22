@@ -30,13 +30,13 @@
                         temperature: 0,
                         location: 'Aachen',
                         hours_temp: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                        icon: 'wb_sunny'
+                        icon: 'wb_sunny',
                     }
                 }
             }
         },
         computed : {
-            weatherData() {
+            weatherDataArray() {
                 return this.$store.getters.getWeather;
             }
         }

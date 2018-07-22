@@ -53,7 +53,8 @@
                 for (let i = 0; i < data.list.length; i++) {
                     let item = data.list[i];
 
-                    let time = Number(item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1,3));
+                    let time = item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1, 6);
+                    let time_number = Number(item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1,3));
 
                     //init object for first item
                     weatherDataObject = {
@@ -67,11 +68,11 @@
                             temp: item.main.temp
                         }]
                     };
-                    for (let j = 0 ; j < ((24-time)/3 - 1); j++){
+                    for (let j = 0 ; j < ((24-time_number)/3 - 1); j++){
                         i++;
                         if (i === data.list.length) break;
                         let following_item = data.list[i];
-                        let following_item_time = Number(following_item.dt_txt.slice(following_item.dt_txt.indexOf(' ')).slice(1,3));
+                        let following_item_time = following_item.dt_txt.slice(following_item.dt_txt.indexOf(' ')).slice(1,6);
                         weatherDataObject.hours_forecast.push({
                             time: following_item_time,
                             temp: following_item.main.temp
