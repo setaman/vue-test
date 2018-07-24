@@ -16,6 +16,7 @@
 
 <script>
     import axios from 'axios';
+    import moment from 'moment';
     import {api_keys} from '../../config';
 
     export default {
@@ -50,15 +51,18 @@
                 let weatherDataArray = [];
                 let weatherDataObject = {};
 
+                moment.locale(data.city.country.toLowerCase());
+
                 for (let i = 0; i < data.list.length; i++) {
                     let item = data.list[i];
 
-                    let time = item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1, 6);
-                    let time_number = Number(item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1,3));
+                    let time = item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1, 6);//HH-MM
+                    let time_number = Number(time.slice(0,2));//HH
+                    let date = item.dt_txt.slice(0, item.dt_txt.indexOf(' ')).trim();//YYYY-MM-DD
 
                     //init object for first item
                     weatherDataObject = {
-                        date: item.dt_txt.slice(0, item.dt_txt.indexOf(' ')),
+                        date: this.setDate(date),
                         temp_min: 0,
                         temp_max: 0,
                         pressure: item.main.pressure,
@@ -90,7 +94,12 @@
                 obj.temp_min = this.appendCelsiusSign(Math.min(...temp_array));
                 return obj;
             },
-            appendCelsiusSign: item => item + '°'
+            appendCelsiusSign: item => item + '°',
+            setDate: date => {
+                let momentDate = moment(date).calendar();
+                momentDate = momentDate.slice(0, momentDate.indexOf(' '));
+                return `${momentDate} ${date}`;
+            }
         },
         mounted: function () {
             this.getLocation();

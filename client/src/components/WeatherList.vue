@@ -1,7 +1,7 @@
 <template>
 
     <v-list>
-        <v-list-tile
+        <v-list-tile v-ripple
                 v-for="(item, i) in weather_data"
                 :key="i"
                 @click="selectItem(i)"
@@ -58,10 +58,18 @@
 
 <style lang="scss" scoped>
     div.v-list {
-        border-radius: 15px;
-        background-color: rgba(26, 68, 89, 0.27);
+        background-color: transparent;//rgba(26, 68, 89, 0.27);
+
+        * {
+            background-color: transparent !important;
+        }
         & > div {
+            //border-radius: 15px;
+            transition: background-color .3s;
             padding: 10px 0 !important;
+            &:hover {
+                background-color: rgba(105, 155, 252, 0.3) !important;;
+            }
 
         }
         div.v-list__tile__title  {
@@ -69,13 +77,13 @@
             font-size: 1.5rem;
         }
     }
+
     .v-list__tile__action {
         i {
             width: 50px;
         }
     }
     .selected {
-        transition: background-color .3s;
         background-color: rgba(105, 155, 252, 0.3) !important;;
     }
 
