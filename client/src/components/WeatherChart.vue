@@ -10,10 +10,46 @@
                 gradient: null,
                 gradient2: null,
                 options: {
+                    layout: {
+                        padding: {
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0
+                        }
+                    },
+                    tooltips: {
+                        intersect: false,
+                        titleFontFamily: 'Montserrat',
+                        titleFontSize: 13,
+                        titleSpacing: 30,
+                        titleMarginBottom: 15,
+                        bodyFontSize: 18,
+                        bodyFontFamily: 'Montserrat',
+                        displayColors: false,
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                let label = Math.round(tooltipItem.yLabel * 100) / 100;
+                                return label + '°';
+                            }
+                        }
+                    },
+                    elements: {
+                      point: {
+                          pointStyle: 'circle',
+                          radius: 4,
+                      },
+                        line: {
+                       }
+                    },
+                    hover: {
+                        animationDuration: 300, // duration of animations when hovering an item
+                    },
                     scales: {
                         yAxes: [
                             {
                                 ticks: {
+                                    fontFamily: 'Montserrat',
                                     beginAtZero: true,
                                     fontColor: 'white'
                                 },
@@ -26,6 +62,7 @@
                         xAxes: [
                             {
                                 ticks: {
+                                    fontFamily: 'Montserrat',
                                     fontColor: 'white'
                                 },
                                 gridLines: {
@@ -36,7 +73,7 @@
                         ]
                     },
                     legend: {
-                        display: true
+                        display: false
                     },
                     responsive: true,
                     maintainAspectRatio: false

@@ -1,32 +1,30 @@
 <template>
+        <div class="weather-list-container"
+             v-bind:style="weather_list_style" v-if="weather_data">
+            <v-btn flat class="hidden-md-and-up" @click="toggleWeatherList">
+                <v-icon large> dehaze</v-icon>
+            </v-btn>
+            <v-list >
+                <v-list-tile v-ripple
+                             v-for="(item, i) in weather_data"
+                             :key="i"
+                             @click="selectItem(i)"
+                             v-bind:class="{selected: selectedItem === i}"
+                >
+                    <v-list-tile-action>
+                        <v-icon color="yellow">room</v-icon>
+                    </v-list-tile-action>
 
-    <div class="weather-list-container"
-         v-bind:style="weather_list_style">
-        <v-btn flat class="hidden-md-and-up" @click="toggleWeatherList">
-            <v-icon large> dehaze</v-icon>
-        </v-btn>
-        <v-list>
-            <v-list-tile v-ripple
-                         v-for="(item, i) in weather_data"
-                         :key="i"
-                         @click="selectItem(i)"
-                         v-bind:class="{selected: selectedItem === i}"
-            >
-                <v-list-tile-action>
-                    <v-icon color="yellow">room</v-icon>
-                </v-list-tile-action>
-
-                <v-list-tile-content>
-                    <v-list-tile-title>
-                        <span>{{item.temp_max}}</span>
-                        <span>{{' / ' + item.temp_min}}</span>
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>{{ item.date }}</v-list-tile-sub-title>
-                </v-list-tile-content>
-            </v-list-tile>
-        </v-list>
-    </div>
-
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            <span>{{item.temp_max}}</span>
+                            <span>{{' / ' + item.temp_min}}</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>{{ item.date }}</v-list-tile-sub-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
+        </div>
 </template>
 
 <script>
@@ -46,14 +44,6 @@
             weather_data: {
                 type: Array,
                 required: true,
-                default() {
-                    return {
-                        temperature: 0,
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    }
-                }
             }
         },
         methods: {
@@ -66,12 +56,7 @@
                 this.weather_list_style.right = this.open_weather_list ? '-300px' : '0px'
             }
         },
-        computed: {
-            openWeatherList() {
-                console.log(this.weather_list_style);
-                return this.weather_list_style.right = this.open_weather_list ? '-300px' : '0px';
-            }
-        }
+        computed: {}
     }
 </script>
 
@@ -111,6 +96,15 @@
     .open-weather-list {
     }
 
+    .list-enter-active, .list-leave-active {
+        transition: opacity .5s;
+        animation: list-slide-in 1s;
+    }
+
+    .list-enter, .list-leave-to {
+        opacity: 0;
+    }
+
     @media only screen and (max-width: 959px) {
         .weather-list-container {
             border-radius: 15px;
@@ -128,5 +122,4 @@
         }
 
     }
-
 </style>

@@ -10,12 +10,16 @@
             </v-layout>
             <v-layout v-if="weatherDataArray.length > 0" row wrap align-center justify-center>
                 <v-flex xs12 sm12 md8 lg8 xl8>
-                    <transition name="fade" >
-                        <weather-card v-if="show_card" :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
+                    <transition name="fade">
+                        <weather-card v-if="show_card"
+                                      :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
                     </transition>
                 </v-flex>
                 <v-flex xs12 sm10 md3 lg2 xl2>
-                    <weather-list :weather_data="weatherDataArray" @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
+                    <slide-in>
+                        <weather-list :weather_data="weatherDataArray"
+                                      @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
+                    </slide-in>
                 </v-flex>
             </v-layout>
             <loading v-else></loading>
@@ -29,10 +33,11 @@
     import LocationInput from "../components/LocationInput";
     import Loading from "../components/Loading";
     import WeatherList from "../components/WeatherList";
+    import SlideIn from "../components/transitions/SlideIn";
 
     export default {
         name: "Weather",
-        components: {WeatherList, WeatherCard, Loading, LocationInput, WeatherInnerCard},
+        components: {SlideIn, WeatherList, WeatherCard, Loading, LocationInput, WeatherInnerCard},
         data() {
             return {
                 currentWeatherData: [],
@@ -46,7 +51,7 @@
             }
         },
         methods: {
-            selectCurrentWeatherObject (i = 0){
+            selectCurrentWeatherObject(i = 0) {
                 this.show_card = false;
                 console.log(this.currentWeatherObject = this.weatherDataArray[i]);
                 setTimeout(() => this.show_card = true, 300);
@@ -110,7 +115,9 @@
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    {
         opacity: 0;
     }
 
