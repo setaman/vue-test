@@ -1,6 +1,32 @@
 <template>
     <div>
-        <div class="loader">
+        <v-autocomplete
+                class="mb-5"
+                color="white"
+                clearable
+                v-model="city"
+                :hint="current_location ? `Your current Location is ${current_location}` : 'Enter your city or use location button'"
+                :items="[]"
+                persistent-hint
+                prepend-icon="location_city"
+                label="Choose your city"
+                :disabled="is_automatic_loading || is_loading"
+                :loading="is_loading"
+                @submit="getWeather(city)"
+        >
+            <v-slide-x-reverse-transition
+                    mode="out-in"
+                    slot="append-outer"
+            >
+                <div class="d-flex justify-center align-center">
+                    <v-btn flat medium icon color="white" @click="getLocation" :loading="is_loading" :disabled="is_loading || is_automatic_loading">
+                        <v-icon>room</v-icon>
+                    </v-btn>
+                </div>
+            </v-slide-x-reverse-transition>
+        </v-autocomplete>
+
+        <div v-if="is_automatic_loading" class="loader">
             <div class="pulse first-shadow">
                 <div class="second-shadow">
                     <div class="third-shadow">
@@ -20,27 +46,39 @@
     import {api_keys} from '../../config';
 
     export default {
-        name: "loading",
+        name: "WeatherLoader",
         data() {
-            return {}
+            return {
+                is_automatic_loading: true,
+                is_loading: false,
+                city: null,
+                current_location: ''
+            }
         },
         methods: {
             getLocation: function () {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition((position) => {
-                            this.location = position.coordinates;
-                            this.getWeather(position);
+                            this.getWeather(null, position);
                         },
                         (error) => {
                             console.log(`Some Erro: ${error}`);
+                            this.is_automatic_loading = false;
                         });
                 } else {
                     console.log('Geolocation is not supported by this browser');
+                    this.is_automatic_loading = false;
                 }
             },
-            getWeather: function (position) {
+            getWeather: function (city, coords) {
+
+                this.weatherDataIsLoading();
+
+                let url = '';
+                city ? url =`http://api.openweathermap.org/data/2.5/forecast?q=${city}`:
+                url = `http://api.openweathermap.org/data/2.5/forecast?lat=${coords.coords.latitude}&lon=${coords.coords.longitude}`;
                 axios
-                    .get(`http://api.openweathermap.org/data/2.5/forecast?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&APPID=${api_keys.weather_api_key}`)
+                    .get(`${url}&units=metric&APPID=${api_keys.weather_api_key}`)
                     .then(response => {
                         console.log(response.data);
                         this.$store.commit('SET_WEATHER_DATA', this.buildWeatherObjectArray(response.data));
@@ -50,6 +88,8 @@
             buildWeatherObjectArray (data) {
                 let weatherDataArray = [];
                 let weatherDataObject = {};
+
+                this.current_location = data.city.name;
 
                 moment.locale(data.city.country.toLowerCase());
 
@@ -67,7 +107,7 @@
                         temp_max: 0,
                         pressure: item.main.pressure,
                         icon: item.weather[0].main,
-                        location: data.city.name,
+                        location: this.current_location,
                         hours_forecast: [{
                             time: time,
                             temp: Number(item.main.temp.toFixed(0))
@@ -85,6 +125,7 @@
                     }
                     weatherDataObject = this.calcTemp(weatherDataObject);
                     weatherDataArray.push(weatherDataObject);
+                    this.weatherDataIsLoaded();
                 }
                 return weatherDataArray;
             },
@@ -99,7 +140,13 @@
                 let momentDate = moment(date).calendar();
                 momentDate = momentDate.slice(0, momentDate.indexOf(' '));
                 return `${momentDate} ${date}`;
-            }
+            },
+            weatherDataIsLoaded (){
+                this.$store.commit('WEATHER_DATA_LOADED');
+            },
+            weatherDataIsLoading (){
+                this.$store.commit('WEATHER_DATA_LOADING');
+            },
         },
         mounted: function () {
             this.getLocation();

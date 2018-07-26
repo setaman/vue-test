@@ -1,28 +1,32 @@
 <template>
     <v-container id="weather-container" fluid fill-height grid-list-xl>
         <div id="weather-img" class="fill-height"></div>
-
         <div id="weather-content">
-            <v-layout row wrap justify-center>
-                <v-flex sm12 md6 lg6 xl6>
-                    <!--<location-input></location-input>-->
+            <v-layout row wrap align-center justify-center>
+                <v-flex xs12 v-if="!weatherDataIsLoaded">
+                    <v-layout row wrap justify-center>
+                        <v-flex xs12 sm12 md6 lg6 xl6>
+                            <weather-loader></weather-loader>
+                        </v-flex>
+                    </v-layout>
+                </v-flex>
+                <v-flex xs12 v-if="weatherDataArray.length > 0 && weatherDataIsLoaded">
+                    <v-layout row wrap align-center justify-center>
+                        <v-flex xs12 sm12 md8 lg8 xl8>
+                            <transition name="fade">
+                                <weather-card v-if="show_card"
+                                              :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
+                            </transition>
+                        </v-flex>
+                        <v-flex xs12 sm10 md3 lg2 xl2>
+                            <slide-in>
+                                <weather-list :weather_data="weatherDataArray"
+                                              @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
+                            </slide-in>
+                        </v-flex>
+                    </v-layout>
                 </v-flex>
             </v-layout>
-            <v-layout v-if="weatherDataArray.length > 0" row wrap align-center justify-center>
-                <v-flex xs12 sm12 md8 lg8 xl8>
-                    <transition name="fade">
-                        <weather-card v-if="show_card"
-                                      :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
-                    </transition>
-                </v-flex>
-                <v-flex xs12 sm10 md3 lg2 xl2>
-                    <slide-in>
-                        <weather-list :weather_data="weatherDataArray"
-                                      @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
-                    </slide-in>
-                </v-flex>
-            </v-layout>
-            <loading v-else></loading>
         </div>
     </v-container>
 </template>
@@ -30,14 +34,13 @@
 <script>
     import WeatherInnerCard from "../components/WeatherInnerCard";
     import WeatherCard from "../components/WeatherCard";
-    import LocationInput from "../components/LocationInput";
-    import Loading from "../components/Loading";
     import WeatherList from "../components/WeatherList";
     import SlideIn from "../components/transitions/SlideIn";
+    import WeatherLoader from "../components/WeatherLoader";
 
     export default {
         name: "Weather",
-        components: {SlideIn, WeatherList, WeatherCard, Loading, LocationInput, WeatherInnerCard},
+        components: {WeatherLoader, SlideIn, WeatherList, WeatherCard, WeatherInnerCard},
         data() {
             return {
                 currentWeatherData: [],
@@ -48,6 +51,9 @@
         computed: {
             weatherDataArray: function () {
                 return this.currentWeatherData = this.$store.getters.getWeather;
+            },
+            weatherDataIsLoaded () {
+                return this.$store.getters.weatherDataLoaded;
             }
         },
         methods: {

@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 
 const CURRENT_LOCATION_MUTATION = 'CURRENT_LOCATION_MUTATION';
 const SET_WEATHER_DATA = 'SET_WEATHER_DATA';
+const WEATHER_DATA_LOADED = 'WEATHER_DATA_LOADED';
+const WEATHER_DATA_LOADING = 'WEATHER_DATA_LOADING';
 
 Vue.use(Vuex)
 
@@ -12,6 +14,7 @@ export default new Vuex.Store({
         cities: [/*...cities*/],
         current_location: '',
         weather_data: [],
+        is_weather_data_loaded: false
     },
     getters: {
         currentLocation: state => {
@@ -23,7 +26,9 @@ export default new Vuex.Store({
         },
         getWeather: state => {
             return state.weather_data;
-
+        },
+        weatherDataLoaded : sate => {
+            return sate.is_weather_data_loaded;
         }
     },
     mutations: {
@@ -32,6 +37,12 @@ export default new Vuex.Store({
         },
         [SET_WEATHER_DATA](state, payload) {
             state.weather_data = payload;
+        },
+        [WEATHER_DATA_LOADED](state) {
+            state.is_weather_data_loaded = true;
+        },
+        [WEATHER_DATA_LOADING](state) {
+            state.is_weather_data_loaded = false;
         }
     },
     actions: {}
