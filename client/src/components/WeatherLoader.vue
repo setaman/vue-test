@@ -12,31 +12,33 @@
                 label="Choose your city"
                 :disabled="is_automatic_loading || is_loading"
                 :loading="is_loading"
-                @submit="getWeather(city)"
+                @enter="getWeather(city)"
         >
             <v-slide-x-reverse-transition
                     mode="out-in"
                     slot="append-outer"
             >
                 <div class="d-flex justify-center align-center">
-                    <v-btn flat medium icon color="white" @click="getLocation" :loading="is_loading" :disabled="is_loading || is_automatic_loading">
+                    <v-btn flat medium icon color="white" @click="getLocation" :loading="is_automatic_loading" :disabled="is_loading || is_automatic_loading">
                         <v-icon>room</v-icon>
                     </v-btn>
                 </div>
             </v-slide-x-reverse-transition>
         </v-autocomplete>
 
-        <div v-if="is_automatic_loading" class="loader">
-            <div class="pulse first-shadow">
-                <div class="second-shadow">
-                    <div class="third-shadow">
-                        <i class="material-icons">
-                            room
-                        </i>
+        <fade-in>
+            <div v-if="is_automatic_loading" class="loader">
+                <div class="pulse first-shadow">
+                    <div class="second-shadow">
+                        <div class="third-shadow">
+                            <i class="material-icons">
+                                room
+                            </i>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </fade-in>
     </div>
 </template>
 
@@ -44,9 +46,11 @@
     import axios from 'axios';
     import moment from 'moment';
     import {api_keys} from '../../config';
+    import FadeIn from "./transitions/FadeIn";
 
     export default {
         name: "WeatherLoader",
+        components: {FadeIn},
         data() {
             return {
                 is_automatic_loading: true,
@@ -56,7 +60,9 @@
             }
         },
         methods: {
-            getLocation: function () {
+            getLocation () {
+                this.is_automatic_loading = true;
+
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition((position) => {
                             this.getWeather(null, position);
@@ -72,18 +78,23 @@
             },
             getWeather: function (city, coords) {
 
+                if(city) this.is_loading = true;
+
                 this.weatherDataIsLoading();
 
                 let url = '';
                 city ? url =`http://api.openweathermap.org/data/2.5/forecast?q=${city}`:
                 url = `http://api.openweathermap.org/data/2.5/forecast?lat=${coords.coords.latitude}&lon=${coords.coords.longitude}`;
-                axios
-                    .get(`${url}&units=metric&APPID=${api_keys.weather_api_key}`)
-                    .then(response => {
-                        console.log(response.data);
-                        this.$store.commit('SET_WEATHER_DATA', this.buildWeatherObjectArray(response.data));
-                    })
-                    .catch(error => console.log(error));
+                setTimeout(()=>{
+                    axios
+                        .get(`${url}&units=metric&APPID=${api_keys.weather_api_key}`)
+                        .then(response => {
+                            console.log(response.data);
+                            this.$store.commit('SET_WEATHER_DATA', this.buildWeatherObjectArray(response.data));
+                        })
+                        .catch(error => console.log(error));
+                }, 2000)
+
             },
             buildWeatherObjectArray (data) {
                 let weatherDataArray = [];
@@ -142,6 +153,8 @@
                 return `${momentDate} ${date}`;
             },
             weatherDataIsLoaded (){
+                this.is_automatic_loading = false;
+                this.is_loading = false;
                 this.$store.commit('WEATHER_DATA_LOADED');
             },
             weatherDataIsLoading (){
