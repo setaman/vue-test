@@ -68,7 +68,7 @@
                             this.getWeather(null, position);
                         },
                         (error) => {
-                            console.log(`Some Erro: ${error}`);
+                            console.log(`Some Error: ${error}`);
                             this.is_automatic_loading = false;
                         });
                 } else {
@@ -120,6 +120,7 @@
                         icon: item.weather[0].main,
                         location: this.current_location,
                         hours_forecast: [{
+                            condition: this.setCondition(item.weather[0].id),
                             time: time,
                             temp: Number(item.main.temp.toFixed(0))
                         }]
@@ -130,6 +131,7 @@
                         let following_item = data.list[i];
                         let following_item_time = following_item.dt_txt.slice(following_item.dt_txt.indexOf(' ')).slice(1,6);
                         weatherDataObject.hours_forecast.push({
+                            condition: this.setCondition(following_item.weather[0].id),
                             time: following_item_time,
                             temp: Number(following_item.main.temp.toFixed(0))
                         })
@@ -151,6 +153,26 @@
                 let momentDate = moment(date).calendar();
                 momentDate = momentDate.slice(0, momentDate.indexOf(' '));
                 return `${momentDate} ${date}`;
+            },
+            setCondition: (condition) => {
+                switch (true) {
+                    case condition === 800:
+                        return 0;
+                    case condition === 801:
+                        return 1;
+                    case condition === 802:
+                        return 2;
+                    case (condition === 803 || condition === 804):
+                        return 3;
+                    case (/^6\[[0-9]+\]$/).test(condition):
+                        return 4;
+                    case (/^5\[[0-9]+\]$/).test(condition):
+                        return 5;
+                    case (/^3\[[0-9]+\]$/).test(condition):
+                        return 6;
+                    case (/^2\[[0-9]+\]$/).test(condition):
+                        return 7;
+                }
             },
             weatherDataIsLoaded (){
                 this.is_automatic_loading = false;
