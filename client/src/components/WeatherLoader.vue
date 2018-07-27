@@ -164,13 +164,13 @@
                         return 2;
                     case (condition === 803 || condition === 804):
                         return 3;
-                    case (/^6\[[0-9]+\]$/).test(condition):
+                    case (/^6[0-9]+[0-9]+$/).test(condition):
                         return 4;
-                    case (/^5\[[0-9]+\]$/).test(condition):
+                    case (/^5[0-9]+[0-9]+$/).test(condition):
                         return 5;
-                    case (/^3\[[0-9]+\]$/).test(condition):
+                    case (/^3[0-9]+[0-9]+$/).test(condition):
                         return 6;
-                    case (/^2\[[0-9]+\]$/).test(condition):
+                    case (/^2[0-9]+[0-9]+$/).test(condition):
                         return 7;
                 }
             },

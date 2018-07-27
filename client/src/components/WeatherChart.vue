@@ -10,6 +10,10 @@
                 gradient: null,
                 gradient2: null,
                 options: {
+                    onClick: (evt, elements) => {
+                        console.log(elements);
+                        this.$store.commit('CHANGE_CURRENT_CONDITION', this.weather.hours_forecast[elements[0]._index].condition)
+                    },
                     layout: {
                         padding: {
                             left: 0,
@@ -37,7 +41,9 @@
                     elements: {
                       point: {
                           pointStyle: 'circle',
-                          radius: 4,
+                          radius: 5,
+                          hitRadius: 60,
+                          hoverRadius: 7
                       },
                         line: {
                        }

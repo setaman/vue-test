@@ -5,11 +5,11 @@
 <script>
 
     /* // weather backgrounds
-     var clearSky        = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504020580/WWWeather/clearsky.png",
+     var clearSky        = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504020580/WWWeather/clearsky.jpg",
          fewClouds       = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018658/WWWeather/fewclouds.jpg",
-         scatteredClouds = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504015796/WWWeather/scattered-clouds.png",
+         scatteredClouds = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504015796/WWWeather/scattered-clouds.jpg",
          brokenClouds    = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018658/WWWeather/brokenclouds.jpg",
-         drizzle         = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018659/WWWeather/drizzle.png",
+         drizzle         = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018659/WWWeather/drizzle.jpg",
          rain            = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018658/WWWeather/rain.jpg",
          thunderStorm    = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018659/WWWeather/thunderstorm.jpg",
          snow            = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018659/WWWeather/snow.jpg",
@@ -53,7 +53,7 @@
         },
         computed: {
             backgImgClass() {
-                switch (this.img_id) {
+                switch (this.$store.getters.getCurrentCondition) {
                     case 0:
                         return 'clear';
                     case 1:
@@ -73,29 +73,6 @@
                 };
             }
         },
-        methods: {
-            setBackgImg(id) {
-                console.warn(id);
-                switch (id) {
-                    case 0:
-                        return 'clear';
-                    case 1:
-                        return 'few_clouds';
-                    case 2:
-                        return 'clouds';
-                    case 3:
-                        return 'broken_clouds';
-                    case 4:
-                        return 'snow';
-                    case 5:
-                        return 'drizzle';
-                    case 6:
-                        return condition_drizzle;
-                    case 7:
-                        return condition_thunderstorm;
-                }
-            }
-        }
     }
 </script>
 
@@ -115,28 +92,28 @@
             filter: blur(10px) brightness(50%) opacity(100%) contrast(50%);
         }
         &.clear {
-            background-image: url("../assets/img/conditions/clear.png");
+            background-image: url("../assets/img/conditions/clear.jpg");
         }
         &.few_clouds {
             background-image: url("../assets/img/conditions/few_clouds.jpg");
         }
         &.clouds {
-            background-image: url("../assets/img/conditions/clear.png");
+            background-image: url("../assets/img/conditions/clouds.jpg");
         }
         &.broken_clouds {
-            background-image: url("../assets/img/conditions/clear.png");
+            background-image: url("../assets/img/conditions/broken_clouds.jpg");
         }
         &.snow {
-            background-image: url("../assets/img/conditions/clear.png");
+            background-image: url("../assets/img/conditions/snow.jpg");
         }
         &.rain {
-            background-image: url("../assets/img/conditions/clear.png");
+            background-image: url("../assets/img/conditions/rain.jpg");
         }
         &.drizzle {
-            background-image: url("../assets/img/conditions/clear.png");
+            background-image: url("../assets/img/conditions/drizzle.jpg");
         }
         &.thunderstorm {
-            background-image: url("../assets/img/conditions/clear.png");
+            background-image: url("../assets/img/conditions/thunderstorm.jpg");
         }
     }
 </style>

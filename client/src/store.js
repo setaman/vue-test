@@ -6,6 +6,7 @@ const CURRENT_LOCATION_MUTATION = 'CURRENT_LOCATION_MUTATION';
 const SET_WEATHER_DATA = 'SET_WEATHER_DATA';
 const WEATHER_DATA_LOADED = 'WEATHER_DATA_LOADED';
 const WEATHER_DATA_LOADING = 'WEATHER_DATA_LOADING';
+const CHANGE_CURRENT_CONDITION = 'CHANGE_CURRENT_CONDITION';
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
         cities: [/*...cities*/],
         current_location: '',
         weather_data: [],
-        is_weather_data_loaded: false
+        is_weather_data_loaded: false,
+        current_condition: 0
     },
     getters: {
         currentLocation: state => {
@@ -29,6 +31,9 @@ export default new Vuex.Store({
         },
         weatherDataLoaded : sate => {
             return sate.is_weather_data_loaded;
+        },
+        getCurrentCondition : sate => {
+            return sate.current_condition;
         }
     },
     mutations: {
@@ -43,6 +48,9 @@ export default new Vuex.Store({
         },
         [WEATHER_DATA_LOADING](state) {
             state.is_weather_data_loaded = false;
+        },
+        [CHANGE_CURRENT_CONDITION](state, condition) {
+            state.current_condition = condition;
         }
     },
     actions: {}

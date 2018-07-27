@@ -1,6 +1,6 @@
 <template>
     <v-container id="weather-container" fluid fill-height grid-list-xl>
-        <background-img :img_id="condition" :is_loading="weatherDataIsLoaded"></background-img>
+        <background-img :is_loading="weatherDataIsLoaded"></background-img>
         <div id="weather-content">
             <v-layout row wrap justify-center>
                 <v-flex xs12>
@@ -58,16 +58,13 @@
             },
             weatherDataIsLoaded () {
                 return this.$store.getters.weatherDataLoaded;
-            },
-            condition() {
-                console.log(this.currentWeatherObject ? this.currentWeatherObject.hours_forecast[0].condition : 0);
-                return this.currentWeatherObject ? this.currentWeatherObject.hours_forecast[0].condition : 0;
             }
         },
         methods: {
             selectCurrentWeatherObject(i = 0) {
                 this.show_card = false;
                 console.log(this.currentWeatherObject = this.weatherDataArray[i]);
+                this.$store.commit('CHANGE_CURRENT_CONDITION', this.currentWeatherObject.hours_forecast[0].condition)
                 setTimeout(() => this.show_card = true, 300);
                 return this.currentWeatherObject = this.weatherDataArray[i];
             }
