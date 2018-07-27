@@ -1,6 +1,6 @@
 <template>
     <v-container id="weather-container" fluid fill-height grid-list-xl>
-        <div id="weather-img" class="fill-height"></div>
+        <background-img :is_loading="weatherDataIsLoaded"></background-img>
         <div id="weather-content">
             <v-layout row wrap justify-center>
                 <v-flex xs12>
@@ -40,10 +40,11 @@
     import WeatherList from "../components/WeatherList";
     import SlideIn from "../components/transitions/SlideIn";
     import WeatherLoader from "../components/WeatherLoader";
+    import BackgroundImg from "../components/BackgroundImg";
 
     export default {
         name: "Weather",
-        components: {WeatherLoader, SlideIn, WeatherList, WeatherCard, WeatherInnerCard},
+        components: {BackgroundImg, WeatherLoader, SlideIn, WeatherList, WeatherCard, WeatherInnerCard},
         data() {
             return {
                 currentWeatherData: [],
@@ -52,7 +53,7 @@
             }
         },
         computed: {
-            weatherDataArray: function () {
+            weatherDataArray () {
                 return this.currentWeatherData = this.$store.getters.getWeather;
             },
             weatherDataIsLoaded () {
@@ -92,16 +93,6 @@
         #weather-content {
             width: 100%;
             z-index: 1;
-        }
-        #weather-img {
-            z-index: 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: url("../assets/img/weather_sunshine.jpg") no-repeat;
-            height: 100vh;
-            width: 100vw;
-            filter: blur(0px) brightness(85%) opacity(100%) contrast(50%);
         }
     }
 
