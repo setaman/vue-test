@@ -64,7 +64,9 @@
             selectCurrentWeatherObject(i = 0) {
                 this.show_card = false;
                 console.log(this.currentWeatherObject = this.weatherDataArray[i]);
-                this.$store.commit('CHANGE_CURRENT_CONDITION', this.currentWeatherObject.hours_forecast[0].condition)
+                this.$store.commit('CHANGE_CURRENT_CONDITION', this.currentWeatherObject.hours_forecast[0].condition);
+                this.$store.commit('CHANGE_CURRENT_TEMP', this.currentWeatherObject.hours_forecast[0].temp);
+                this.$store.commit('CHANGE_CURRENT_TIME', this.currentWeatherObject.hours_forecast[0].time);
                 setTimeout(() => this.show_card = true, 300);
                 return this.currentWeatherObject = this.weatherDataArray[i];
             }

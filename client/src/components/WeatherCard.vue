@@ -1,16 +1,16 @@
 <template>
     <div class="weather-card ">
-        <v-layout class="weather-card-header" row wrap>
+        <v-layout class="weather-card-header" row wrap align-center>
             <v-flex class="data" xs12 sm4>
                 <v-icon class="d-block" color="yellow">
                     wb_sunny
                 </v-icon>
-                <span>{{weather_data.temp_max}}</span>
-                <span>{{' / ' + weather_data.temp_min}}</span>
+                <span>{{temp + '°'}}</span>
+                <!--<span>{{' / ' + weather_data.temp_min}}</span>-->
             </v-flex>
             <v-flex class="description" xs12 sm8>
                 <v-layout align-center row wrap>
-                    <v-flex xs12>
+                    <v-flex xs12 class="pa-0">
                         <div>
                             <v-icon>
                                 room
@@ -18,18 +18,18 @@
                             <span>{{weather_data.location}}</span>
                         </div>
                     </v-flex>
-                    <v-flex xs12>
+                    <v-flex xs12 class="pa-0">
                         <div class="d-inline-block">
                             <v-icon>
                                 insert_invitation
                             </v-icon>
-                            <span>{{' ' + weather_data.date}}</span>
+                            <span>{{weather_data.date}}</span>
                         </div>
                         <div class="d-inline-block">
                             <v-icon>
                                 access_time
                             </v-icon>
-                            <span>{{' ' + weather_data.date}}</span>
+                            <span>{{time}}</span>
                         </div>
                     </v-flex>
                 </v-layout>
@@ -61,6 +61,14 @@
                         icon: 'wb_sunny'
                     }
                 }*/
+            }
+        },
+        computed: {
+            temp () {
+                return this.$store.getters.getCurrentTemp;
+            },
+            time () {
+                return this.$store.getters.getCurrentTime;
             }
         }
     }
