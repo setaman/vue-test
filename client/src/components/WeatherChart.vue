@@ -7,12 +7,17 @@
         props: ['weather'],
         data() {
             return {
+                data: {},
+                color: '',
                 gradient: null,
                 gradient2: null,
                 options: {
                     onClick: (evt, elements) => {
-                        console.log(elements);
-                        this.$store.commit('CHANGE_CURRENT_CONDITION', this.weather.hours_forecast[elements[0]._index].condition)
+                        /*console.log(this);
+                        this.color = Math.random();*/
+                        if(elements) {
+                            this.$store.commit('CHANGE_CURRENT_CONDITION', this.weather.hours_forecast[elements[0]._index].condition)
+                        }
                     },
                     layout: {
                         padding: {
@@ -40,7 +45,9 @@
                     },
                     elements: {
                       point: {
-                          pointStyle: 'circle',
+                          borderColor:'blue',
+                          backgroundColor: 'red',
+                          pointStyle: 'crossd',
                           radius: 5,
                           hitRadius: 60,
                           hoverRadius: 7
@@ -101,26 +108,40 @@
             this.gradient2.addColorStop(0, "rgba(255, 165, 0, 1)");
             this.gradient2.addColorStop(0.5, "rgba(135, 206, 250, 0.25)");
             this.gradient2.addColorStop(1, "rgba(135, 206, 250, 0.5)");
+            this.data = {
+                labels: [...this.weather.hours_forecast.map( (i) => i.time)],
+                datasets: [
+                    {
+                        label: 'Temperature',
+                        borderColor: /*"#fc7d7b"*/ this.gradient2,
+                        pointBackgroundColor: 'white',
+                        borderWidth: 5,
+                        fontColor: 'white',
+                        pointBorderColor: 'white',
+                        backgroundColor: 'transparent',
+                        data: [...this.weather.hours_forecast.map( (i) => i.temp)]
+                    }
+                ]
+            };
 
-            this.renderChart(
-                {
-                    labels: [...this.weather.hours_forecast.map( (i) => i.time)],
-                    datasets: [
-                        {
-                            label: "Temperature",
-                            borderColor: /*"#fc7d7b"*/ this.gradient2,
-                            pointBackgroundColor: "white",
-                            borderWidth: 5,
-                            fontColor: 'white',
-                            pointBorderColor: "white",
-                            backgroundColor: 'transparent',
-                            data: [...this.weather.hours_forecast.map( (i) => i.temp)]
-                        }
-                    ]
-                }, this.options);
-            this.$data._chart.update();
+            this.renderChart(this.data, this.options);
+            //this.$data._chart.update();
 
         },
+        watch: {
+            color() {
+                console.log(this.$data);
+                this.data.datasets.borderColor = 'blue';
+                this.$data._chart.update();
+                this.render();
+            }
+        },
+        methods: {
+            render() {
+                this.$data._chart.destroy();
+                this.renderChart(this.data, this.options)
+            }
+        }
     }
 </script>
 
