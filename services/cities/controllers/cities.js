@@ -1,6 +1,6 @@
 module.exports.getCities = function(db, req, res) {
     db.collection('cities').find({
-        'city': req.query.city
+        'name': req.query.city
     })
         .toArray((err, cities) => {
             if (err) console.error('Some error occurred: ' + err);
