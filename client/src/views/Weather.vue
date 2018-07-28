@@ -2,7 +2,7 @@
     <v-container id="weather-container" fluid fill-height grid-list-xl>
         <background-img :is_loading="weatherDataIsLoaded"></background-img>
         <div id="weather-content">
-            <v-layout row wrap justify-center>
+            <v-layout row wrap>
                 <v-flex xs12>
                     <v-layout row wrap justify-center>
                         <v-flex xs12 sm12 md6 lg6 xl6>
@@ -12,7 +12,6 @@
                 </v-flex>
                 <v-flex xs12 v-if="weatherDataIsLoaded">
                     <slide-in>
-
                     <v-layout row wrap align-center justify-center>
                         <v-flex xs12 sm12 md8 lg8 xl8>
                             <transition name="fade">
@@ -25,7 +24,6 @@
                                               @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
                         </v-flex>
                     </v-layout>
-
                     </slide-in>
 
                 </v-flex>

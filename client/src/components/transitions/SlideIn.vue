@@ -1,5 +1,5 @@
 <template>
-    <transition name="slide-in">
+    <transition appear name="slide-in">
         <slot></slot>
     </transition>
 

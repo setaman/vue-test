@@ -5,7 +5,9 @@
                 <v-icon class="d-block" color="yellow">
                     wb_sunny
                 </v-icon>
-                <span>{{temp + '°'}}</span>
+                <slide-in-out>
+                    <span v-bind:key="time">{{temp + '°'}}</span>
+                </slide-in-out>
                 <!--<span>{{' / ' + weather_data.temp_min}}</span>-->
             </v-flex>
             <v-flex class="description" xs12 sm8>
@@ -29,7 +31,9 @@
                             <v-icon>
                                 access_time
                             </v-icon>
-                            <span>{{time}}</span>
+                            <slide-in-out>
+                                <span v-bind:key="time">{{time}}</span>
+                            </slide-in-out>
                         </div>
                     </v-flex>
                 </v-layout>
@@ -45,10 +49,13 @@
 
 <script>
     import WeatherChart from "./WeatherChart";
+    import SlideIn from "./transitions/SlideIn";
+    import FadeIn from "./transitions/FadeIn";
+    import SlideInOut from "./transitions/SlideOutIn";
 
     export default {
         name: "weather-card",
-        components: {WeatherChart},
+        components: {SlideInOut, FadeIn, SlideIn, WeatherChart},
         props: {
             weather_data: {
                 type: Object,

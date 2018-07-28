@@ -15,7 +15,6 @@
                     onClick: (evt, elements) => {
                         /*console.log(this);
                         this.color = Math.random();*/
-                        console.warn(elements[0]._index);
                         if(elements[0]._index >= 0) {
                             this.$store.commit('CHANGE_CURRENT_CONDITION', this.weather.hours_forecast[elements[0]._index].condition);
                             this.$store.commit('CHANGE_CURRENT_TEMP', this.weather.hours_forecast[elements[0]._index].temp);
