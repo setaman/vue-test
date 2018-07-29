@@ -1,6 +1,6 @@
 <template>
     <v-snackbar
-            v-model="snackbar"
+            v-model="snackState"
             :color="color"
             :timeout="timeout"
     >
@@ -19,6 +19,11 @@
 <script>
     export default {
         name: "SnackBar",
+        data () {
+            return {
+                snack: true,
+            }
+        },
         props:{
             snackbar: {
                 type: Boolean,
@@ -53,11 +58,16 @@
         },
         methods: {
             snackbarAction() {
+                this.snack = false;
                 if (this.method) {
                     this.method(); //execute some given method
-                }else {
-                    this.snackbar = false;
                 }
+            }
+        },
+        computed: {
+            snackState() {
+                this.snack = this.snackbar;
+                return this.snack;
             }
         }
     }
