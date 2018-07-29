@@ -9,6 +9,7 @@ mongo.connect('mongodb://localhost:27017/cities', (err, mongodb) => {
     if (err) throw err;
     console.log('DB connected');
     db = mongodb.db('cities');
+    db.createIndex('cities', {name: 'text'});
 });
 
 router.get('/', function (req, res, next) {
