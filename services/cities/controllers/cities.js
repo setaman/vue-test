@@ -1,10 +1,8 @@
 module.exports.getCities = function(db, req, res) {
-    db.collection('cities').indexInformation((err, index) => {
-        console.log(index);
-    });
-    console.log(req.query);
+    let search_regexp = new RegExp(`(${req.query.city})`, 'i');
+    console.log(search_regexp);
     db.collection('cities').find(
-        { name: { $regex: `(${req.query.city})` }}
+        { name: { $regex: search_regexp}}
     )
         .toArray((err, cities) => {
             if (err) console.error('Some error occurred: ' + err);
