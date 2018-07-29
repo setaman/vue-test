@@ -6,35 +6,41 @@
                    :timeout="sb_options.timeout"
                    :button="sb_options.button"
                    :button_color="sb_options.button_color"
-                   :method="sb_options.sb_method"></snack-bar>
-        <v-form>
-            <v-autocomplete
-                    class="mb-5"
-                    color="white"
-                    clearable
-                    @keyup.native.enter="submit()"
-                    v-model="city"
-                    :hint="current_location ? `Your current Location is ${current_location}` : 'Enter your city or use location button'"
-                    :items="cities"
-                    persistent-hint
-                    prepend-icon="location_city"
-                    label="Select your city"
-                    :disabled="is_automatic_loading || is_loading"
-                    :loading="is_loading"
+                   :method="sb_options.sb_method">
+        </snack-bar>
+
+        <p>{{model}}</p>
+
+        <v-autocomplete
+                deletable-chips
+                class="mb-5"
+                color="white"
+                clearable
+                :search-input.sync="model"
+                @keyup.native.enter="submit(model)"
+                :hint="current_location ? `Your current Location is ${current_location}` : 'Enter your city or use location button'"
+                :items="cities"
+                persistent-hint
+                prepend-icon="location_city"
+                label="Select your city"
+                :disabled="is_automatic_loading || is_loading"
+                :loading="is_loading"
+                hide-no-data
+                hide-selected
+                no-data-text="No Cities"
+        >
+            <v-slide-x-reverse-transition
+                    mode="out-in"
+                    slot="append-outer"
             >
-                <v-slide-x-reverse-transition
-                        mode="out-in"
-                        slot="append-outer"
-                >
-                    <div class="d-flex justify-center align-center">
-                        <v-btn flat medium icon color="white" @click="getLocation" :loading="is_automatic_loading"
-                               :disabled="is_loading || is_automatic_loading">
-                            <v-icon>room</v-icon>
-                        </v-btn>
-                    </div>
-                </v-slide-x-reverse-transition>
-            </v-autocomplete>
-        </v-form>
+                <div class="d-flex justify-center align-center">
+                    <v-btn flat medium icon color="white" @click="getLocation" :loading="is_automatic_loading"
+                           :disabled="is_loading || is_automatic_loading">
+                        <v-icon>room</v-icon>
+                    </v-btn>
+                </div>
+            </v-slide-x-reverse-transition>
+        </v-autocomplete>
 
         <fade-in>
             <div v-if="is_automatic_loading" class="loader">
@@ -67,7 +73,7 @@
             return {
                 is_automatic_loading: true,
                 is_loading: false,
-                city: null,
+                model: null,
                 current_location: '',
                 cities: [],
                 sb_options: {
@@ -204,28 +210,30 @@
             weatherDataIsLoading() {
                 this.$store.commit('WEATHER_DATA_LOADING');
             },
-            submit() {
-                getCities(this.city)
+            submit(city) {
+                console.log(city);
+                this.is_loading = true;
+                getCities(this.model)
                     .then((response) => {
-                        if (response.data.length === 0 || !response) {
+                        if (!response || !response.data || response.data.length === 0) {
                             this.sb_options = {
                                 sb: true,
                                 text: 'No cities found',
                                 color: 'error',
                                 button: 'close',
                             };
-                        }else {
+                        } else {
+                            this.cities.push(...response.data);
                             this.sb_options = {
                                 sb: true,
                                 text: 'Cities',
                                 color: 'success',
                                 button: 'close',
-                                sb_method: () => console.log(`Here are your fucking cities: ${response.data[0]}`),
+                                sb_method: () => console.log(`Here are your cities: ${response.data[0]}`),
                                 timeout: 5000
                             };
                         }
-                        console.log(response.data);
-                        this.cities.push(...response.data);
+                        this.is_loading = false;
                     })
                     .catch((err) => {
                         console.log(err);
@@ -234,16 +242,23 @@
                             text: 'Some error was occurred while executing request. Please try again',
                             color: 'error',
                             button: 'retry',
-                            button_color: 'warn',
-                            sb_method: this.getCities,
+                            button_color: 'warning',
+                            sb_method: () => {
+                                this.submit()
+                            },
                             timeout: 10000
                         };
-
+                        this.is_loading = false;
                     });
             }
         },
         mounted: function () {
             this.getLocation();
+        },
+        computed: {
+            citycity() {
+                console.log(this.model);
+            }
         }
     }
 </script>
