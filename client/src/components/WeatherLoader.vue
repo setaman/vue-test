@@ -1,30 +1,32 @@
 <template>
     <div>
-        <v-autocomplete
-                class="mb-5"
-                color="white"
-                clearable
-                v-model="city"
-                :hint="current_location ? `Your current Location is ${current_location}` : 'Enter your city or use location button'"
-                :items="[]"
-                persistent-hint
-                prepend-icon="location_city"
-                label="Choose your city"
-                :disabled="is_automatic_loading || is_loading"
-                :loading="is_loading"
-                @enter="getWeather(city)"
-        >
-            <v-slide-x-reverse-transition
-                    mode="out-in"
-                    slot="append-outer"
+        <v-form>
+            <v-autocomplete
+                    class="mb-5"
+                    color="white"
+                    clearable
+                    @keyup.native.enter="submit()"
+                    v-model="city"
+                    :hint="current_location ? `Your current Location is ${current_location}` : 'Enter your city or use location button'"
+                    :items="cities"
+                    persistent-hint
+                    prepend-icon="location_city"
+                    label="Select your city"
+                    :disabled="is_automatic_loading || is_loading"
+                    :loading="is_loading"
             >
-                <div class="d-flex justify-center align-center">
-                    <v-btn flat medium icon color="white" @click="getLocation" :loading="is_automatic_loading" :disabled="is_loading || is_automatic_loading">
-                        <v-icon>room</v-icon>
-                    </v-btn>
-                </div>
-            </v-slide-x-reverse-transition>
-        </v-autocomplete>
+                <v-slide-x-reverse-transition
+                        mode="out-in"
+                        slot="append-outer"
+                >
+                    <div class="d-flex justify-center align-center">
+                        <v-btn flat medium icon color="white" @click="getLocation" :loading="is_automatic_loading" :disabled="is_loading || is_automatic_loading">
+                            <v-icon>room</v-icon>
+                        </v-btn>
+                    </div>
+                </v-slide-x-reverse-transition>
+            </v-autocomplete>
+        </v-form>
 
         <fade-in>
             <div v-if="is_automatic_loading" class="loader">
@@ -47,6 +49,7 @@
     import moment from 'moment';
     import {api_keys} from '../../config';
     import FadeIn from "./transitions/FadeIn";
+    import {getCities} from '../api/cities';
 
     export default {
         name: "WeatherLoader",
@@ -56,7 +59,21 @@
                 is_automatic_loading: true,
                 is_loading: false,
                 city: null,
-                current_location: ''
+                current_location: '',
+                cities: ['Alabama', 'Alaska', 'American Samoa', 'Arizona',
+                    'Arkansas', 'California', 'Colorado', 'Connecticut',
+                    'Delaware', 'District of Columbia', 'Federated States of Micronesia',
+                    'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho',
+                    'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
+                    'Louisiana', 'Maine', 'Marshall Islands', 'Maryland',
+                    'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
+                    'Missouri', 'Montana', 'Nebraska', 'Nevada',
+                    'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
+                    'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio',
+                    'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico',
+                    'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
+                    'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
+                    'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
             }
         },
         methods: {
@@ -182,6 +199,14 @@
             weatherDataIsLoading (){
                 this.$store.commit('WEATHER_DATA_LOADING');
             },
+            submit() {
+                getCities(this.city)
+                    .then((data)=> {
+                        console.log(data.data);
+                        this.cities.push(...data.data);
+                    })
+                    .catch(console.error);
+            }
         },
         mounted: function () {
             this.getLocation();

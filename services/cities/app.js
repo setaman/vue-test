@@ -3,12 +3,16 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+var cors = require('cors');
 
 let cities_router = require('./routes/cities');
 
 let app = express();
-
-// view engine setup
+let corsOptions = {
+    origin: 'http://localhost:8080',
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
