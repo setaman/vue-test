@@ -1,5 +1,12 @@
 <template>
     <div>
+        <snack-bar :text="sb_options.text"
+                   :snackbar="sb_options.sb"
+                   :color="sb_options.color"
+                   :timeout="sb_options.timeout"
+                   :button="sb_options.button"
+                   :button_color="sb_options.button_color"
+                   :method="sb_options.sb_method"></snack-bar>
         <v-form>
             <v-autocomplete
                     class="mb-5"
@@ -20,7 +27,8 @@
                         slot="append-outer"
                 >
                     <div class="d-flex justify-center align-center">
-                        <v-btn flat medium icon color="white" @click="getLocation" :loading="is_automatic_loading" :disabled="is_loading || is_automatic_loading">
+                        <v-btn flat medium icon color="white" @click="getLocation" :loading="is_automatic_loading"
+                               :disabled="is_loading || is_automatic_loading">
                             <v-icon>room</v-icon>
                         </v-btn>
                     </div>
@@ -50,34 +58,31 @@
     import {api_keys} from '../../config';
     import FadeIn from "./transitions/FadeIn";
     import {getCities} from '../api/cities';
+    import SnackBar from "./SnackBar";
 
     export default {
         name: "WeatherLoader",
-        components: {FadeIn},
+        components: {SnackBar, FadeIn},
         data() {
             return {
                 is_automatic_loading: true,
                 is_loading: false,
                 city: null,
                 current_location: '',
-                cities: ['Alabama', 'Alaska', 'American Samoa', 'Arizona',
-                    'Arkansas', 'California', 'Colorado', 'Connecticut',
-                    'Delaware', 'District of Columbia', 'Federated States of Micronesia',
-                    'Florida', 'Georgia', 'Guam', 'Hawaii', 'Idaho',
-                    'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky',
-                    'Louisiana', 'Maine', 'Marshall Islands', 'Maryland',
-                    'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
-                    'Missouri', 'Montana', 'Nebraska', 'Nevada',
-                    'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
-                    'North Carolina', 'North Dakota', 'Northern Mariana Islands', 'Ohio',
-                    'Oklahoma', 'Oregon', 'Palau', 'Pennsylvania', 'Puerto Rico',
-                    'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee',
-                    'Texas', 'Utah', 'Vermont', 'Virgin Island', 'Virginia',
-                    'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+                cities: [],
+                sb_options: {
+                    sb: false,
+                    text: '',
+                    color: '',
+                    button: '',
+                    button_color: '',
+                    sb_method: null,
+                    timeout: 6000
+                }
             }
         },
         methods: {
-            getLocation () {
+            getLocation() {
                 this.is_automatic_loading = true;
 
                 if (navigator.geolocation) {
@@ -95,14 +100,14 @@
             },
             getWeather: function (city, coords) {
 
-                if(city) this.is_loading = true;
+                if (city) this.is_loading = true;
 
                 this.weatherDataIsLoading();
 
                 let url = '';
-                city ? url =`http://api.openweathermap.org/data/2.5/forecast?q=${city}`:
-                url = `http://api.openweathermap.org/data/2.5/forecast?lat=${coords.coords.latitude}&lon=${coords.coords.longitude}`;
-                setTimeout(()=>{
+                city ? url = `http://api.openweathermap.org/data/2.5/forecast?q=${city}` :
+                    url = `http://api.openweathermap.org/data/2.5/forecast?lat=${coords.coords.latitude}&lon=${coords.coords.longitude}`;
+                setTimeout(() => {
                     axios
                         .get(`${url}&units=metric&APPID=${api_keys.weather_api_key}`)
                         .then(response => {
@@ -113,7 +118,7 @@
                 }, 2000)
 
             },
-            buildWeatherObjectArray (data) {
+            buildWeatherObjectArray(data) {
                 let weatherDataArray = [];
                 let weatherDataObject = {};
 
@@ -125,7 +130,7 @@
                     let item = data.list[i];
 
                     let time = item.dt_txt.slice(item.dt_txt.indexOf(' ')).slice(1, 6);//HH-MM
-                    let time_number = Number(time.slice(0,2));//HH
+                    let time_number = Number(time.slice(0, 2));//HH
                     let date = item.dt_txt.slice(0, item.dt_txt.indexOf(' ')).trim();//YYYY-MM-DD
 
                     //init object for first item
@@ -142,11 +147,11 @@
                             temp: Number(item.main.temp.toFixed(0))
                         }]
                     };
-                    for (let j = 0 ; j < ((24-time_number)/3 - 1); j++){
+                    for (let j = 0; j < ((24 - time_number) / 3 - 1); j++) {
                         i++;
                         if (i === data.list.length) break;
                         let following_item = data.list[i];
-                        let following_item_time = following_item.dt_txt.slice(following_item.dt_txt.indexOf(' ')).slice(1,6);
+                        let following_item_time = following_item.dt_txt.slice(following_item.dt_txt.indexOf(' ')).slice(1, 6);
                         weatherDataObject.hours_forecast.push({
                             condition: this.setCondition(following_item.weather[0].id),
                             time: following_item_time,
@@ -159,7 +164,7 @@
                 }
                 return weatherDataArray;
             },
-            calcTemp (obj){
+            calcTemp(obj) {
                 let temp_array = obj.hours_forecast.map(item => item.temp);
                 obj.temp_max = this.appendCelsiusSign(Math.max(...temp_array));
                 obj.temp_min = this.appendCelsiusSign(Math.min(...temp_array));
@@ -191,21 +196,50 @@
                         return 7;
                 }
             },
-            weatherDataIsLoaded (){
+            weatherDataIsLoaded() {
                 this.is_automatic_loading = false;
                 this.is_loading = false;
                 this.$store.commit('WEATHER_DATA_LOADED');
             },
-            weatherDataIsLoading (){
+            weatherDataIsLoading() {
                 this.$store.commit('WEATHER_DATA_LOADING');
             },
             submit() {
                 getCities(this.city)
-                    .then((data)=> {
-                        console.log(data.data);
-                        this.cities.push(...data.data);
+                    .then((response) => {
+                        if (response.data.length === 0 || !response) {
+                            this.sb_options = {
+                                sb: true,
+                                text: 'No cities found',
+                                color: 'error',
+                                button: 'close',
+                            };
+                        }else {
+                            this.sb_options = {
+                                sb: true,
+                                text: 'Cities',
+                                color: 'success',
+                                button: 'close',
+                                sb_method: () => console.log(`Here are your fucking cities: ${response.data[0]}`),
+                                timeout: 5000
+                            };
+                        }
+                        console.log(response.data);
+                        this.cities.push(...response.data);
                     })
-                    .catch(console.error);
+                    .catch((err) => {
+                        console.log(err);
+                        this.sb_options = {
+                            sb: true,
+                            text: 'Some error was occurred while executing request. Please try again',
+                            color: 'error',
+                            button: 'retry',
+                            button_color: 'warn',
+                            sb_method: this.getCities,
+                            timeout: 10000
+                        };
+
+                    });
             }
         },
         mounted: function () {
