@@ -11,7 +11,7 @@
 
         <v-autocomplete
                 deletable-chips
-                class="mb-5"
+                class="mb-2"
                 color="white"
                 clearable
                 :search-input.sync="model"
