@@ -9,11 +9,9 @@
                    :method="sb_options.sb_method">
         </snack-bar>
 
-        <p>{{model}}</p>
-
         <v-autocomplete
                 deletable-chips
-                class="mb-5"
+                class="mb-2"
                 color="white"
                 clearable
                 :search-input.sync="model"
@@ -25,7 +23,6 @@
                 label="Select your city"
                 :disabled="is_automatic_loading || is_loading"
                 :loading="is_loading"
-                hide-no-data
                 hide-selected
                 no-data-text="No Cities"
         >
@@ -73,9 +70,9 @@
             return {
                 is_automatic_loading: true,
                 is_loading: false,
-                model: null,
+                model: '',
                 current_location: '',
-                cities: [],
+                entries: [],
                 sb_options: {
                     sb: false,
                     text: '',
@@ -210,8 +207,7 @@
             weatherDataIsLoading() {
                 this.$store.commit('WEATHER_DATA_LOADING');
             },
-            submit(city) {
-                console.log(city);
+            submit() {
                 this.is_loading = true;
                 getCities(this.model)
                     .then((response) => {
@@ -223,7 +219,9 @@
                                 button: 'close',
                             };
                         } else {
-                            this.cities.push(...response.data);
+                            this.entries = [];
+                            this.entries.push(response.data.map((i) => i.name));
+                            console.log(this.entries);
                             this.sb_options = {
                                 sb: true,
                                 text: 'Cities',
@@ -255,9 +253,14 @@
         mounted: function () {
             this.getLocation();
         },
+        watch: {
+            model () {
+                if (this.model.length >= 3) this.submit();
+            }
+        },
         computed: {
-            citycity() {
-                console.log(this.model);
+            cities () {
+                return this.entries;
             }
         }
     }
