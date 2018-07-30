@@ -29,6 +29,7 @@
                             bottom: 0
                         }
                     },
+                    height: 100,
                     tooltips: {
                         intersect: false,
                         titleFontFamily: 'Montserrat',

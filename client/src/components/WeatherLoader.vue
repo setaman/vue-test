@@ -117,8 +117,19 @@
                             console.log(response.data);
                             this.$store.commit('SET_WEATHER_DATA', this.buildWeatherObjectArray(response.data));
                         })
-                        .catch(error => console.log(error));
-                }, 2000)
+                        .catch(error => {
+                            console.log(error);
+                            this.sb_options = {
+                                sb: true,
+                                text: 'Some error was occurred. Please try again',
+                                color: 'error',
+                                button: 'retry',
+                                button_color: 'warning',
+                                sb_method: () => {this.getLocation()},
+                                timeout: 5000
+                            };
+                        });
+                }, 1000)
 
             },
             buildWeatherObjectArray(data) {
@@ -255,7 +266,7 @@
         },
         watch: {
             model () {
-                if (this.model.length >= 3) this.submit();
+                //if (this.model.length >= 3) this.submit();
             }
         },
         computed: {

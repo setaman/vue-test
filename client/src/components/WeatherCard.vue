@@ -59,15 +59,7 @@
         props: {
             weather_data: {
                 type: Object,
-                required: true,
-                /*default() {
-                    return {
-                        temperature: 0,
-                        location: 'Aachen',
-                        hours_temp: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        icon: 'wb_sunny'
-                    }
-                }*/
+                required: true
             }
         },
         computed: {
@@ -83,7 +75,6 @@
 
 <style lang="scss" scoped>
     .weather-card {
-        padding: 20px;
         height: 100%;
         color: white;
         font-family: "Montserrat";
