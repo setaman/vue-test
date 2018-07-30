@@ -33,7 +33,6 @@
 </template>
 
 <script>
-    import WeatherInnerCard from "../components/WeatherInnerCard";
     import WeatherCard from "../components/WeatherCard";
     import WeatherList from "../components/WeatherList";
     import SlideIn from "../components/transitions/SlideIn";
@@ -42,7 +41,7 @@
 
     export default {
         name: "Weather",
-        components: {BackgroundImg, WeatherLoader, SlideIn, WeatherList, WeatherCard, WeatherInnerCard},
+        components: {BackgroundImg, WeatherLoader, SlideIn, WeatherList, WeatherCard},
         data() {
             return {
                 currentWeatherData: [],
@@ -117,9 +116,15 @@
         transition: opacity .5s;
     }
 
-    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+    .fade-enter, .fade-leave-to
     {
         opacity: 0;
     }
 
+    @media only screen and (max-width: 959px) {
+        #weather-content {
+            padding-top: 40px !important;
+        }
+
+    }
 </style>
