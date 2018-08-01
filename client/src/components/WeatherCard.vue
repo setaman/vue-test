@@ -41,7 +41,7 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex>
-                <weather-chart :weather="weather_data"></weather-chart>
+                <weather-chart @update-hour="setHeaderData($event)" :weather="weather_data"></weather-chart>
             </v-flex>
         </v-layout>
     </div>
@@ -56,19 +56,40 @@
     export default {
         name: "weather-card",
         components: {SlideInOut, FadeIn, SlideIn, WeatherChart},
-        props: {
+        /*props: {
             weather_data: {
                 type: Object,
                 required: true
             }
+        },*/
+        data () {
+            return {
+             temp_data: 0,
+             time_data: 0,
+             date_data: 0,
+                hour: null,
+            }
         },
         computed: {
-            temp () {
-                return this.$store.getters.getCurrentTemp;
+            temp() {
+                return this.temp_data ? this.temp_data : this.weather_data.hours_forecast[0].temp; //this.$store.getters.getCurrentTemp;
             },
-            time () {
-                return this.$store.getters.getCurrentTime;
+            time() {
+                return this.time_data ? this.time_data : this.weather_data.hours_forecast[0].time//this.$store.getters.getCurrentTime;
+            },
+            weather_data () {
+                return this.$store.getters.getCurrentWeatherItem;
             }
+        },
+        methods: {
+            setHeaderData(item_index = 0){
+                this.temp_data = this.weather_data.hours_forecast[item_index].temp;
+                this.time_data = this.weather_data.hours_forecast[item_index].time;
+                this.date_data = this.weather_data.hours_forecast[item_index].data;
+            },
+        },
+        mounted () {
+            //this.setHeaderData();
         }
     }
 </script>
@@ -79,13 +100,6 @@
         color: white;
         font-family: "Montserrat";
     }
-
-    .weather-card-header {
-        /*border-radius: 12px;
-        background-color: rgba(32, 93, 159, 0.25);*/
-
-    }
-
     .data {
         text-align: center;
         i {

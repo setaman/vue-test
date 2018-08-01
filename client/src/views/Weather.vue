@@ -16,12 +16,11 @@
                         <v-flex xs12 sm12 md8 lg8 xl8>
                             <transition name="fade">
                                 <weather-card v-if="show_card"
-                                              :weather_data="currentWeatherObject ? currentWeatherObject : selectCurrentWeatherObject()"></weather-card>
+                                              :weather_data="weatherDataObject"></weather-card>
                             </transition>
                         </v-flex>
                         <v-flex xs12 sm10 md3 lg2 xl2>
-                                <weather-list :weather_data="weatherDataArray"
-                                              @weather-item-selected="selectCurrentWeatherObject($event)"></weather-list>
+                                <weather-list :weather_data="weatherDataArray"></weather-list>
                         </v-flex>
                     </v-layout>
                     </slide-in>
@@ -53,19 +52,23 @@
             weatherDataArray () {
                 return this.currentWeatherData = this.$store.getters.getWeather;
             },
+            weatherDataObject () {
+                this.currentWeatherObject = this.$store.getters.getCurrentWeatherItem;
+                this.selectCurrentWeatherObject(this.currentWeatherObject);
+                return this.currentWeatherObject;
+            },
             weatherDataIsLoaded () {
                 return this.$store.getters.weatherDataLoaded;
             }
         },
         methods: {
-            selectCurrentWeatherObject(i = 0) {
+            selectCurrentWeatherObject(item) {
                 this.show_card = false;
-                console.log(this.currentWeatherObject = this.weatherDataArray[i]);
-                this.$store.commit('CHANGE_CURRENT_CONDITION', this.currentWeatherObject.hours_forecast[0].condition);
-                this.$store.commit('CHANGE_CURRENT_TEMP', this.currentWeatherObject.hours_forecast[0].temp);
-                this.$store.commit('CHANGE_CURRENT_TIME', this.currentWeatherObject.hours_forecast[0].time);
+                console.log(item);
+                /*this.$store.commit('CHANGE_CURRENT_CONDITION', item.hours_forecast[0].condition);
+                this.$store.commit('CHANGE_CURRENT_TEMP', item.hours_forecast[0].temp);
+                this.$store.commit('CHANGE_CURRENT_TIME', item.hours_forecast[0].time);*/
                 setTimeout(() => this.show_card = true, 300);
-                return this.currentWeatherObject = this.weatherDataArray[i];
             }
         }
     }

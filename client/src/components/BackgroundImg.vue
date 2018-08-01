@@ -3,36 +3,14 @@
 </template>
 
 <script>
-
-    /* // weather backgrounds
-     var clearSky        = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504020580/WWWeather/clearsky.jpg",
-         fewClouds       = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018658/WWWeather/fewclouds.jpg",
-         scatteredClouds = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504015796/WWWeather/scattered-clouds.jpg",
-         brokenClouds    = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018658/WWWeather/brokenclouds.jpg",
-         drizzle         = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018659/WWWeather/drizzle.jpg",
-         rain            = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018658/WWWeather/rain.jpg",
-         thunderStorm    = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018659/WWWeather/thunderstorm.jpg",
-         snow            = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018659/WWWeather/snow.jpg",
-         mist            = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504018660/WWWeather/mist.jpg";
-     // weather SVGs
-     var sun             = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119685/WWWeather/SVGs/Sun.svg",
-         cloudSun        = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119681/WWWeather/SVGs/Cloud-Sun.svg",
-         cloud           = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119681/WWWeather/SVGs/Cloud.svg",
-         cloudDrizzle    = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119681/WWWeather/SVGs/Cloud-Drizzle.svg",
-         cloudRain       = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119681/WWWeather/SVGs/Cloud-Rain.svg",
-         cloudLightning  = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119681/WWWeather/SVGs/Cloud-Lightning.svg",
-         cloudFog        = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119681/WWWeather/SVGs/Cloud-Fog.svg",
-         cloudWind       = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119685/WWWeather/SVGs/Cloud-Wind.svg",
-         snowflake       = "http://res.cloudinary.com/detqxj5bf/image/upload/v1504119684/WWWeather/SVGs/Snowflake.svg";*/
-
-    let condition_clear = '../assets/img/conditions/clear.jpg',
+    /*let condition_clear = '../assets/img/conditions/clear.jpg',
         condition_few_clouds = '../assets/img/conditions/few_clouds.jpg',
         condition_clouds = '../assets/img/conditions/clouds.jpg',
         condition_broken_clouds = '../assets/img/conditions/broken_clouds.jpg',
         condition_snow = '../assets/img/conditions/snow.jpg',
         condition_rain = '../assets/img/conditions/rain.jpg',
         condition_drizzle = '../assets/img/conditions/drizzle.jpg',
-        condition_thunderstorm = '../assets/img/conditions/thunderstorm.jpg';
+        condition_thunderstorm = '../assets/img/conditions/thunderstorm.jpg';*/
 
 
     export default {

@@ -47,16 +47,15 @@
             }
         },
         methods: {
-            selectItem(i) {
-                this.$emit('weather-item-selected', i);
+            selectItem(i = 0) {
                 this.selectedItem = i;
-            },
-            toggleWeatherList() {
-                this.open_weather_list = !this.open_weather_list;
-                this.weather_list_style.right = this.open_weather_list ? '-300px' : '0px'
+                this.$store.commit('SELECT_WEATHER_ITEM', this.selectedItem);
             }
         },
-        computed: {}
+        computed: {},
+        mounted () {
+            this.selectItem();
+        }
     }
 </script>
 

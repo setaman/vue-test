@@ -15,7 +15,7 @@
                 color="white"
                 clearable
                 :search-input.sync="model"
-                @keyup.native.enter="submit(model)"
+                @keyup.native.enter="getWeather(model, null)"
                 :hint="current_location ? `Your current Location is ${current_location}` : 'Enter your city or use location button'"
                 :items="cities"
                 persistent-hint
@@ -23,8 +23,6 @@
                 label="Select your city"
                 :disabled="is_automatic_loading || is_loading"
                 :loading="is_loading"
-                hide-selected
-                no-data-text="No Cities"
         >
             <v-slide-x-reverse-transition
                     mode="out-in"
@@ -174,8 +172,8 @@
                     }
                     weatherDataObject = this.calcTemp(weatherDataObject);
                     weatherDataArray.push(weatherDataObject);
-                    this.weatherDataIsLoaded();
                 }
+                this.weatherDataIsLoaded();
                 return weatherDataArray;
             },
             calcTemp(obj) {

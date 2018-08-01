@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-//import cities from './assets/city.list.min';
 
 const CURRENT_LOCATION_MUTATION = 'CURRENT_LOCATION_MUTATION';
 const SET_WEATHER_DATA = 'SET_WEATHER_DATA';
@@ -9,6 +8,7 @@ const WEATHER_DATA_LOADING = 'WEATHER_DATA_LOADING';
 const CHANGE_CURRENT_CONDITION = 'CHANGE_CURRENT_CONDITION';
 const CHANGE_CURRENT_TEMP = 'CHANGE_CURRENT_TEMP';
 const CHANGE_CURRENT_TIME = 'CHANGE_CURRENT_TIME';
+const SELECT_WEATHER_ITEM = 'SELECT_WEATHER_ITEM';
 
 Vue.use(Vuex)
 
@@ -20,7 +20,8 @@ export default new Vuex.Store({
         is_weather_data_loaded: false,
         current_condition: 0,
         current_temp: 0,
-        current_time: 0
+        current_time: 0,
+        selected_weather_item: 0
     },
     getters: {
         currentLocation: state => {
@@ -32,17 +33,20 @@ export default new Vuex.Store({
         getWeather: state => {
             return state.weather_data;
         },
-        weatherDataLoaded : sate => {
-            return sate.is_weather_data_loaded;
+        weatherDataLoaded : state => {
+            return state.is_weather_data_loaded;
         },
-        getCurrentCondition : sate => {
-            return sate.current_condition;
+        getCurrentCondition : state => {
+            return state.current_condition;
         },
-        getCurrentTemp : sate => {
-            return sate.current_temp;
+        getCurrentTemp : state => {
+            return state.current_temp;
         },
-        getCurrentTime : sate => {
-            return sate.current_time;
+        getCurrentTime : state => {
+            return state.current_time;
+        },
+        getCurrentWeatherItem : state => {
+            return state.weather_data[state.selected_weather_item];
         }
     },
     mutations: {
@@ -66,6 +70,9 @@ export default new Vuex.Store({
         },
         [CHANGE_CURRENT_TIME](state, time) {
             state.current_time = time;
+        },
+        [SELECT_WEATHER_ITEM](state, item = 0) {
+            state.selected_weather_item = item;
         }
     },
     actions: {}
