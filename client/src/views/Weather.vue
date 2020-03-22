@@ -12,17 +12,18 @@
                 </v-flex>
                 <v-flex xs12 v-if="weatherDataIsLoaded">
                     <slide-in>
-                    <v-layout row wrap align-center justify-center>
-                        <v-flex xs12 sm12 md8 lg8 xl8>
-                            <transition name="fade">
-                                <weather-card v-if="show_card"
-                                              :weather_data="weatherDataObject"></weather-card>
-                            </transition>
-                        </v-flex>
-                        <v-flex xs12 sm10 md3 lg2 xl2>
+                        <v-layout row wrap align-center justify-center>
+                            <v-flex id="weather-card-container" xs12 sm12 md8 lg8 xl8>
+                                <transition name="fade">
+                                    <weather-card v-if="show_card"
+                                                  :weather_data="weatherDataObject"
+                                                  @condition="setImgBackground($event)"></weather-card>
+                                </transition>
+                            </v-flex>
+                            <v-flex xs12 sm10 md3 lg2 xl2>
                                 <weather-list :weather_data="weatherDataArray"></weather-list>
-                        </v-flex>
-                    </v-layout>
+                            </v-flex>
+                        </v-layout>
                     </slide-in>
 
                 </v-flex>
@@ -49,26 +50,27 @@
             }
         },
         computed: {
-            weatherDataArray () {
+            weatherDataArray() {
                 return this.currentWeatherData = this.$store.getters.getWeather;
             },
-            weatherDataObject () {
+            weatherDataObject() {
                 this.currentWeatherObject = this.$store.getters.getCurrentWeatherItem;
                 this.selectCurrentWeatherObject(this.currentWeatherObject);
                 return this.currentWeatherObject;
             },
-            weatherDataIsLoaded () {
+            weatherDataIsLoaded() {
                 return this.$store.getters.weatherDataLoaded;
             }
         },
         methods: {
-            selectCurrentWeatherObject(item) {
+            selectCurrentWeatherObject() {
                 this.show_card = false;
-                console.log(item);
-                /*this.$store.commit('CHANGE_CURRENT_CONDITION', item.hours_forecast[0].condition);
-                this.$store.commit('CHANGE_CURRENT_TEMP', item.hours_forecast[0].temp);
-                this.$store.commit('CHANGE_CURRENT_TIME', item.hours_forecast[0].time);*/
+                //console.log(item);
+                this.setImgBackground(0);
                 setTimeout(() => this.show_card = true, 300);
+            },
+            setImgBackground(index = 0) {
+                this.$store.commit('CHANGE_CURRENT_CONDITION', this.currentWeatherObject.hours_forecast[index].condition);
             }
         }
     }
@@ -119,9 +121,11 @@
         transition: opacity .5s;
     }
 
-    .fade-enter, .fade-leave-to
-    {
+    .fade-enter, .fade-leave-to {
         opacity: 0;
+    }
+    #weather-card-container {
+        min-height: 562px;
     }
 
     @media only screen and (max-width: 959px) {

@@ -17,9 +17,6 @@
                         this.color = Math.random();*/
                         if(elements[0]._index >= 0) {
                             this.$emit('update-hour', elements[0]._index);
-                            /*this.$store.commit('CHANGE_CURRENT_CONDITION', this.weather.hours_forecast[elements[0]._index].condition);
-                            this.$store.commit('CHANGE_CURRENT_TEMP', this.weather.hours_forecast[elements[0]._index].temp);
-                            this.$store.commit('CHANGE_CURRENT_TIME', this.weather.hours_forecast[elements[0]._index].time);*/
                         }
                     },
                     layout: {
@@ -41,7 +38,7 @@
                         bodyFontFamily: 'Montserrat',
                         displayColors: false,
                         callbacks: {
-                            label: function (tooltipItem, data) {
+                            label: function (tooltipItem) {
                                 let label = Math.round(tooltipItem.yLabel * 100) / 100;
                                 return label + '°';
                             }

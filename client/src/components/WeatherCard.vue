@@ -86,10 +86,9 @@
                 this.temp_data = this.weather_data.hours_forecast[item_index].temp;
                 this.time_data = this.weather_data.hours_forecast[item_index].time;
                 this.date_data = this.weather_data.hours_forecast[item_index].data;
-            },
-        },
-        mounted () {
-            //this.setHeaderData();
+
+                this.$emit('condition', item_index);
+            }
         }
     }
 </script>
