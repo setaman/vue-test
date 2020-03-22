@@ -1,45 +1,76 @@
 <template>
-    <v-container id="weather-container" fluid align-center justify-center fill-height>
-        <v-layout id="weather-content" row align-center justify-center>
-            <v-flex sm12 md6 lg6 xl6>
-                <!--<location-input v-if="weatherData.length > 0"></location-input>-->
-                <v-expansion-panel v-if="weatherData.length > 0" focusable class="elevation-10">
-                    <v-expansion-panel-content v-for="(item, i) in weatherData" :key="i">
-                        <div slot="header" class="d-flex justify-start align-content-center">
-                            <!--<v-icon color="yellow darken-3">{{item.icon}}</v-icon>-->
-                            <span class="">{{item.temp}}</span>
-                            <span>{{item.date}}</span>
-                        </div>
-                        <v-card>
-                            <v-card-text class="lighten-3">
-                                <weather-inner-card :weather_data="item"></weather-inner-card>
-                            </v-card-text>
-                        </v-card>
-                    </v-expansion-panel-content>
-                </v-expansion-panel>
-                <loading v-else></loading>
-            </v-flex>
-        </v-layout>
-        <div id="weather-img" class="fill-height"></div>
+    <v-container id="weather-container" fluid fill-height grid-list-xl>
+        <background-img :is_loading="weatherDataIsLoaded"></background-img>
+        <div id="weather-content">
+            <v-layout row wrap>
+                <v-flex xs12>
+                    <v-layout row wrap justify-center>
+                        <v-flex xs12 sm12 md6 lg6 xl6>
+                            <weather-loader></weather-loader>
+                        </v-flex>
+                    </v-layout>
+                </v-flex>
+                <v-flex xs12 v-if="weatherDataIsLoaded">
+                    <slide-in>
+                        <v-layout row wrap align-center justify-center>
+                            <v-flex id="weather-card-container" xs12 sm12 md8 lg8 xl8>
+                                <transition name="fade">
+                                    <weather-card v-if="show_card"
+                                                  :weather_data="weatherDataObject"
+                                                  @condition="setImgBackground($event)"></weather-card>
+                                </transition>
+                            </v-flex>
+                            <v-flex xs12 sm10 md3 lg2 xl2>
+                                <weather-list :weather_data="weatherDataArray"></weather-list>
+                            </v-flex>
+                        </v-layout>
+                    </slide-in>
+
+                </v-flex>
+            </v-layout>
+        </div>
     </v-container>
 </template>
 
 <script>
-    import WeatherInnerCard from "../components/WeatherInnerCard";
-    import LocationInput from "../components/LocationInput";
-    import Loading from "../components/Loading";
+    import WeatherCard from "../components/WeatherCard";
+    import WeatherList from "../components/WeatherList";
+    import SlideIn from "../components/transitions/SlideIn";
+    import WeatherLoader from "../components/WeatherLoader";
+    import BackgroundImg from "../components/BackgroundImg";
 
     export default {
         name: "Weather",
-        components: {Loading, LocationInput, WeatherInnerCard},
+        components: {BackgroundImg, WeatherLoader, SlideIn, WeatherList, WeatherCard},
         data() {
             return {
-                currentWeatherData: []
+                currentWeatherData: [],
+                currentWeatherObject: null,
+                show_card: true,
             }
         },
         computed: {
-            weatherData: function () {
+            weatherDataArray() {
                 return this.currentWeatherData = this.$store.getters.getWeather;
+            },
+            weatherDataObject() {
+                this.currentWeatherObject = this.$store.getters.getCurrentWeatherItem;
+                this.selectCurrentWeatherObject(this.currentWeatherObject);
+                return this.currentWeatherObject;
+            },
+            weatherDataIsLoaded() {
+                return this.$store.getters.weatherDataLoaded;
+            }
+        },
+        methods: {
+            selectCurrentWeatherObject() {
+                this.show_card = false;
+                //console.log(item);
+                this.setImgBackground(0);
+                setTimeout(() => this.show_card = true, 300);
+            },
+            setImgBackground(index = 0) {
+                this.$store.commit('CHANGE_CURRENT_CONDITION', this.currentWeatherObject.hours_forecast[index].condition);
             }
         }
     }
@@ -60,20 +91,13 @@
                 border-bottom-right-radius: 10px;
             }
             div, span {
-                font-family: 'Montserrat', sans-serif;
+                //font-family: 'Montserrat', sans-serif;
             }
         }
 
         #weather-content {
-            z-index: 1;
-        }
-        #weather-img {
-            position: fixed;
-            background: url("../assets/img/weather_sunshine.jpg") no-repeat;
-            background-size: cover;
-            height: 100%;
             width: 100%;
-            filter: blur(0px) brightness(85%) opacity(100%) contrast(50%);
+            z-index: 1;
         }
     }
 
@@ -93,4 +117,21 @@
         background-image: $background_gradient_danger !important;
     }
 
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
+    }
+    #weather-card-container {
+        min-height: 562px;
+    }
+
+    @media only screen and (max-width: 959px) {
+        #weather-content {
+            padding-top: 40px !important;
+        }
+
+    }
 </style>
