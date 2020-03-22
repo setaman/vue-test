@@ -1,2 +1,2 @@
 # vuejs-test
-![demo](https://i.ibb.co/NZ91G6b/vue-first-app.gif "Demo")
+![demo](https://github.com/setaman/Bilder/blob/master/vue_first_app.gif "Demo")
